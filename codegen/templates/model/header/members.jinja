@@ -1,0 +1,3 @@
+{% for prop in children %}
+    {{prop.props.name | PascalCase}}Type _{{prop.props.name | camelCase}};
+{% endfor %}

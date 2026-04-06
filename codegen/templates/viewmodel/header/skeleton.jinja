@@ -1,0 +1,40 @@
+{% import "utils.jinja" as utils %}
+{% import "viewmodel/utils.jinja" as vm_utils -%}
+
+#pragma once
+
+{% include "viewmodel/header/includes.jinja" %}
+{% include "viewmodel/header/forwards.jinja" %}
+
+{% call utils.namespace(props.namespace) %}
+
+    class {{props.name}} : public {{vm_utils.parent(props)}} {
+    public:
+        using ParentType_ = {{vm_utils.parent(props)}};
+        using ModelType_ = {{props.model_namespace ~ "::" if props.model_namespace is defined}}{{props.model | default(props.name)}};
+
+        {% include "viewmodel/header/properties.jinja" %}
+
+        using ParentType_::ParentType_;
+
+        mvvm::WeakPtr<ModelType_> GetModel() const;
+
+        {% for prop in children %}
+            {% include "viewmodel/header/getter.jinja" %}
+        {% endfor %}
+
+    protected:
+        HandlerResult _HandleModelChanged(const mvvm::BaseProperty & property, const void * oldValue, const void * newValue) override;
+
+        void _Observe(const mvvm::SharedPtr<mvvm::Model> & model) override;
+
+    private:
+        {% for prop in children %}
+            {% include "viewmodel/header/setter.jinja" %}
+        {% endfor %}
+
+        NS_DECLARE_REFLECTION({{props.name}}, ParentType_)
+    };
+
+{% endcall %}
+

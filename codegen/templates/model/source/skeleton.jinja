@@ -1,0 +1,15 @@
+{% import "utils.jinja" as utils %}
+
+{% include "model/source/includes.jinja" %}
+
+{% call utils.namespace(props.namespace) %}
+
+    {% for prop in children %}
+        // ------ {{prop.props.name}} ------
+        {% include "model/source/getter.jinja" %}
+
+        {% include "model/source/setter.jinja" %}
+
+    {% endfor %}
+
+{% endcall %}

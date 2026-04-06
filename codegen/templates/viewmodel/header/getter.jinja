@@ -1,0 +1,5 @@
+{% if prop.props.type == "string" %}
+    const {{prop.props.name | PascalCase}}Type &  Get{{prop.props.name | PascalCase}}() const;
+{% else %}
+    {{prop.props.name | PascalCase}}Type Get{{prop.props.name | PascalCase}}() const;
+{% endif %}

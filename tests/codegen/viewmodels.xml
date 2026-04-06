@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+    <class name="League" namespace="viewmodel" model_namespace="model">
+        <prop name="teams" type="collection" item_type="class" item_class="Team"/>
+    </class>
+
+    <class name="Team" namespace="viewmodel" model_namespace="model">
+        <prop name="players" type="collection" item_type="class" item_class="Player"/>
+        <prop name="captain" type="class" class="Player"/>
+
+        <prop name="parent" type="class" class="League"/>
+    </class>
+
+    <class name="Player" namespace="viewmodel" model_namespace="model">
+        <prop name="name" type="string"/>
+
+        <prop name="parent" type="class" class="Team"/>
+    </class>
+
+    <class name="Goalkeeper" namespace="viewmodel" parent="Player" model_namespace="model">
+        <prop name="savePercentage" type="double"/>
+    </class>
+
+    <class name="Outfielder" namespace="viewmodel" parent="Player" model_namespace="model">
+        <prop name="goals" type="short"/>
+    </class>
+
+    <class name="Midfielder" namespace="viewmodel" parent="Outfielder" model_namespace="model">
+        <prop name="passes" type="unsigned int"/>
+    </class>
+</definitions>

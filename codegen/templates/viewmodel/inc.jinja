@@ -1,0 +1,2 @@
+#include <{{props.model_namespace | default(props.namespace) | ns_to_path}}{{props.model | default(props.name)}}.h>
+#include <{{props.namespace | ns_to_path}}{{props.name}}.h>

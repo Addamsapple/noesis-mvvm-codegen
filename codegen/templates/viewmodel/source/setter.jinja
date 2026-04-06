@@ -1,0 +1,9 @@
+{% if prop.props.type == "string" %}
+    void {{props.name}}::Set{{prop.props.name | PascalCase}}(const char * pValue) {
+        Noesis::DependencyObject::SetReadOnlyProperty<{{prop.props.name | PascalCase}}Type>({{prop.props.name | CONST_CASE}}_PROP, pValue);
+    }
+{% else %}
+    void {{props.name}}::Set{{prop.props.name | PascalCase}}({{prop.props.name | PascalCase}}Type value) {
+        Noesis::DependencyObject::SetReadOnlyProperty<{{prop.props.name | PascalCase}}Type>({{prop.props.name | CONST_CASE}}_PROP, value);
+    }
+{% endif %}

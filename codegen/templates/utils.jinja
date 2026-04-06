@@ -1,0 +1,11 @@
+{% macro namespace(ns) %}
+    {% if ns %}
+        namespace {{ns}} {
+    {% endif %}
+
+    {{- caller() -}}
+
+    {% if ns %}
+        }
+    {% endif %}
+{% endmacro %}

@@ -1,0 +1,27 @@
+{% import "utils.jinja" as utils %}
+
+{% include "viewmodel/source/includes.jinja" %}
+
+{% call utils.namespace(props.namespace) %}
+
+    mvvm::WeakPtr<{{props.name}}::ModelType_> {{props.name}}::GetModel() const {
+        return mvvm::ViewModel::GetModel().StaticCast<ModelType_>();
+    }
+
+    {% for prop in children %}
+        // ------ {{prop.props.name}} ------
+        {% include "viewmodel/source/getter.jinja" %}
+        {% include "viewmodel/source/setter.jinja" %}
+
+    {% endfor %}
+
+    {% include "viewmodel/source/observation.jinja" %}
+
+
+    {% include "viewmodel/source/handler.jinja" %}
+
+
+    {% include "viewmodel/source/reflection.jinja" %}
+
+{% endcall %}
+

@@ -1,0 +1,11 @@
+#include <memory>
+#include <string>
+
+{% if props.parent is defined %}
+    #include <{{props.parent_namespace | default(props.namespace) | ns_to_path}}{{props.parent}}.h>
+{% else %}
+    #include <mvvm/Model.h>
+{% endif %}
+
+#include <mvvm/ModelCollection.h>
+#include <mvvm/SharedPtr.h>

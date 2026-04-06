@@ -1,0 +1,5 @@
+{% if prop.props.type not in ["class", "collection", "string"] %}
+    void Set{{prop.props.name | PascalCase}}({{prop.props.name | PascalCase}}Type value);
+{% else %}
+    void Set{{prop.props.name | PascalCase}}(const {{prop.props.name | PascalCase}}Type & value);
+{% endif %}

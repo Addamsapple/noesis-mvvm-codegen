@@ -1,0 +1,18 @@
+void {{props.name}}::_Observe(const mvvm::SharedPtr<mvvm::Model> & pModel) {
+    ParentType_::_Observe(pModel);
+    {% if children | length != 0 %}
+        const auto pDerivedModel = GetModel();
+    {% endif %}
+
+    {% for prop in children %}
+        {% if prop.props.type not in ["class", "collection", "string"] %}
+            Set{{prop.props.name | PascalCase}}(pDerivedModel->Get{{prop.props.name | PascalCase}}());
+        {% elif prop.props.type == "string" %}
+            Set{{prop.props.name | PascalCase}}(pDerivedModel->Get{{prop.props.name | PascalCase}}().c_str());
+        {% elif prop.props.type == "class" %}
+            Set{{prop.props.name | PascalCase}}(Noesis::StaticPtrCast<{{prop.props.name | PascalCase}}Type::Type>(CreateFromModel(pDerivedModel->Get{{prop.props.name | PascalCase}}())));
+        {% else %}
+            _ObserveCollection<{{prop.props.name | PascalCase}}Type::Type>({{prop.props.name | CONST_CASE}}_PROP, pDerivedModel->Get{{prop.props.name | PascalCase}}());
+        {% endif %}
+    {% endfor %}
+}

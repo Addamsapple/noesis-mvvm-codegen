@@ -1,0 +1,26 @@
+mvvm::ViewModel::HandlerResult {{props.name}}::_HandleModelChanged(const mvvm::BaseProperty & property, const void * pOldValue, const void * pNewValue) {
+    if (ParentType_::_HandleModelChanged(property, pOldValue, pNewValue) == HandlerResult::Handled) return HandlerResult::Handled;
+
+    {% for prop in children %}
+        {% if not loop.first %} else {% endif %}
+
+        if (property == ModelType_::{{prop.props.name | CONST_CASE}}_PROP)
+            {% if prop.props.type not in ["class", "collection", "string"] %}
+                Set{{prop.props.name | PascalCase}}(ModelType_::{{prop.props.name | CONST_CASE}}_PROP.Cast(pNewValue));
+            {% elif prop.props.type == "string" %}
+                Set{{prop.props.name | PascalCase}}(ModelType_::{{prop.props.name | CONST_CASE}}_PROP.Cast(pNewValue).c_str());
+            {% elif prop.props.type == "class" %}
+                Set{{prop.props.name | PascalCase}}(Noesis::StaticPtrCast<{{prop.props.name | PascalCase}}Type::Type>(CreateFromModel(ModelType_::{{prop.props.name | CONST_CASE}}_PROP.Cast(pNewValue))));
+            {% else %}
+                _ObserveCollection<{{prop.props.name | PascalCase}}Type::Type>({{prop.props.name | CONST_CASE}}_PROP, ModelType_::{{prop.props.name | CONST_CASE}}_PROP.Cast(pNewValue));
+            {% endif %}
+    {% endfor %}
+
+    {%- if children | length != 0 %}
+            else return HandlerResult::NotHandled;
+
+        return HandlerResult::Handled;
+    {% else %}
+        return HandlerResult::NotHandled;
+    {% endif %}
+}

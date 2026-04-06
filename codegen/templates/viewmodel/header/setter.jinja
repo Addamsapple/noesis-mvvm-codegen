@@ -1,0 +1,5 @@
+{% if prop.props.type == "string" %}
+    void Set{{prop.props.name | PascalCase}}(const char * pValue);
+{% else %}
+    void Set{{prop.props.name | PascalCase}}({{prop.props.name | PascalCase}}Type value);
+{% endif %}

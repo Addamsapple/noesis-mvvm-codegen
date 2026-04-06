@@ -1,0 +1,5 @@
+{% if prop.props.type not in ["class", "collection", "string"] %}
+    {{prop.props.name | PascalCase}}Type Get{{prop.props.name | PascalCase}}() const;
+{% else %}
+    const {{prop.props.name | PascalCase}}Type & Get{{prop.props.name | PascalCase}}() const;
+{% endif %}

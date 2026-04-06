@@ -1,0 +1,7 @@
+NS_IMPLEMENT_REFLECTION({{props.name}}, "{{props.namespace | replace("::", ".") ~ "." if props.namespace else ""}}{{props.name}}") {
+    Noesis::DependencyData * data = NsMeta<Noesis::DependencyData>(Noesis::TypeOf<SelfClass>());
+
+    {% for prop in children %}
+        data->RegisterPropertyRO<{{prop.props.name | PascalCase}}Type>({{prop.props.name | CONST_CASE}}_PROP, "{{prop.props.name}}", Noesis::PropertyMetadata::Create({{prop.props.name | PascalCase}}Type {}));
+    {% endfor %}
+}

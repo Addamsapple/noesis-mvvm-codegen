@@ -1,0 +1,25 @@
+{% import "utils.jinja" as utils -%}
+{% import "model/utils.jinja" as m_utils -%}
+
+#pragma once
+
+{% include "model/header/includes.jinja" %}
+{% include "model/header/forwards.jinja" %}
+
+{% call utils.namespace(props.namespace) %}
+
+    class {{props.name}} : public {{m_utils.parent(props)}} {
+    public:
+        {% include "model/header/properties.jinja" %}
+
+        {% for prop in children %}
+            // ------ {{prop.props.name}} ------
+            {% include "model/header/getter.jinja" %}
+            {% include "model/header/setter.jinja" %}
+        {% endfor %}
+    private:
+        {% include "model/header/members.jinja" %}
+    };
+
+{% endcall %}
+

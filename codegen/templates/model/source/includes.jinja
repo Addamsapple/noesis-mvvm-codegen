@@ -1,0 +1,15 @@
+#include <{{props.namespace | ns_to_path}}{{props.name}}.h>
+
+{% set ns = children | map(attribute="props.namespace") | list %}
+{% set item_ns = children | map(attribute="props.item_namespace") | list %}
+{% set unique_ns = (ns + item_ns) | unique %}
+
+{% for ns in unique_ns %}
+    {% set classes = children | selectattr("props.namespace", "eq", ns) | map(attribute="props.class") | list %}
+    {% set item_classes = children | selectattr("props.item_namespace", "eq", ns) | map(attribute="props.item_class") | list %}
+    {% set unique_classes = (classes + item_classes) | unique | select %}
+
+    {% for class in unique_classes %}
+        #include <{{ns | default(props.namespace) | ns_to_path}}{{class}}.h>
+    {% endfor %}
+{% endfor %}
