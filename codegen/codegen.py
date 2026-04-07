@@ -147,7 +147,7 @@ try:
 
     sys.exit(0)
 
-except exceptions.TemplateError as e:
+except Exception as e:
     frames = []
     traceback = sys.exc_info()[2]
 
@@ -159,9 +159,6 @@ except exceptions.TemplateError as e:
 
     for frame in frames:
         print(f"{frame.tb_frame.f_code.co_filename}:{frame.tb_lineno}")
-    print(e.message)
-
-except Exception as e:
     print(e)
 
 sys.exit(1)
