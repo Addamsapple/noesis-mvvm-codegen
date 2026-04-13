@@ -28,7 +28,7 @@ void BaseModelCollection::RemoveSubscriber(SubscriberId id) {
     _subscribers.erase(iter);
 }
 
-void BaseModelCollection::NotifySubscribers(Event event, uint32_t oldIndex, const void * pOldValue, uint32_t newIndex, const void * pNewValue) {
+void BaseModelCollection::_NotifySubscribers(Event event, uint32_t oldIndex, const void * pOldValue, uint32_t newIndex, const void * pNewValue) {
     for (const auto & subscriber : _subscribers)
         subscriber.second(event, oldIndex, pOldValue, newIndex, pNewValue);
 }

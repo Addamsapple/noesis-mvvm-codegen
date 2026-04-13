@@ -9,7 +9,7 @@ public:
     void SetInt(int value) {
         auto oldValue = _int;
         _int = value;
-        NotifySubscribers(INT_PROPERTY, &oldValue, &_int);
+        _NotifySubscribers(INT_PROPERTY, &oldValue, &_int);
     }
 
 private:

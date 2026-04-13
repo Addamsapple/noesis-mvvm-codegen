@@ -26,7 +26,7 @@ void Model::RemoveSubscriber(SubscriberId id) {
     _subscribers.erase(iter);
 }
 
-void Model::NotifySubscribers(const BaseProperty & property, const void * pOldValue, const void * pNewValue) {
+void Model::_NotifySubscribers(const BaseProperty & property, const void * pOldValue, const void * pNewValue) {
     for (const auto & subscriber : _subscribers)
         subscriber.second(property, pOldValue, pNewValue);
 }

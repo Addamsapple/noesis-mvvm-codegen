@@ -47,7 +47,7 @@ public:
     virtual ~Model() = default;
 
 protected:
-    void NotifySubscribers(const BaseProperty & property, const void * pOldValue, const void * pNewValue);
+    void _NotifySubscribers(const BaseProperty & property, const void * pOldValue, const void * pNewValue);
 
 private:
     std::vector<std::pair<SubscriberId, Subscriber>> _subscribers;

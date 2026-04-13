@@ -52,13 +52,13 @@ public:
         _pModelCollection = pCollection;
 
         for (auto & modelItem : *pCollection)
-            this->Add(CreateItem((void *) &modelItem));
+            this->Add(_CreateItem((void *) &modelItem));
 
         _subscription = Subscribe(_pModelCollection.template StaticCast<BaseModelCollection>(),
             [this](Event event, uint32_t oldIndex, const void * pOldValue, uint32_t newIndex, const void * pNewValue) {
                 switch(event) {
                     case Event::ItemAdded:
-                        this->Insert(newIndex, CreateItem(pNewValue));
+                        this->Insert(newIndex, _CreateItem(pNewValue));
                         break;
                     case Event::ItemMoved:
                         this->Move(oldIndex, newIndex);
@@ -67,7 +67,7 @@ public:
                         this->RemoveAt(oldIndex);
                         break;
                     case Event::ItemReplaced:
-                        this->Set(newIndex, CreateItem(pNewValue));
+                        this->Set(newIndex, _CreateItem(pNewValue));
                         break;
                     case Event::PreCleared:
                         break;
@@ -82,7 +82,7 @@ public:
 private:
     using Event = BaseModelCollection::Event;
 
-    auto CreateItem(const void * pValue) {
+    auto _CreateItem(const void * pValue) {
         if constexpr (std::is_arithmetic_v<T>)
             return Noesis::StaticPtrCast<Noesis::Boxed<T>>(Noesis::Boxing::Box(*static_cast<const T *>(pValue)));
 

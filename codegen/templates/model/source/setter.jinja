@@ -3,7 +3,7 @@
         if (value != _{{prop.props.name | camelCase}}) {
             auto oldValue = std::move(_{{prop.props.name | camelCase}});
             _{{prop.props.name | camelCase}} = std::move(value);
-            NotifySubscribers({{prop.props.name | CONST_CASE}}_PROP, &oldValue, &value);
+            _NotifySubscribers({{prop.props.name | CONST_CASE}}_PROP, &oldValue, &value);
         }
     }
 {% else %}
@@ -11,7 +11,7 @@
         if (value != _{{prop.props.name | camelCase}}) {
             auto oldValue = std::move(_{{prop.props.name | camelCase}});
             _{{prop.props.name | camelCase}} = value;
-            NotifySubscribers({{prop.props.name | CONST_CASE}}_PROP, &oldValue, &value);
+            _NotifySubscribers({{prop.props.name | CONST_CASE}}_PROP, &oldValue, &value);
         }
     }
 {% endif %}

@@ -28,7 +28,7 @@ public:
     void RemoveSubscriber(SubscriberId id);
 
 protected:
-    void NotifySubscribers(Event event, uint32_t oldIndex, const void * pOldValue, uint32_t newIndex, const void * pNewValue);
+    void _NotifySubscribers(Event event, uint32_t oldIndex, const void * pOldValue, uint32_t newIndex, const void * pNewValue);
 
 private:
     std::vector<std::pair<SubscriberId, Subscriber>> _subscribers;
