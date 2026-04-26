@@ -182,4 +182,4 @@ add_dependencies(codegen_tests model_codegen viewmodel_codegen)
 
 include(${doctest_SOURCE_DIR}/scripts/cmake/doctest.cmake)
 
-doctest_discover_tests(codegen_tests)
+doctest_discover_tests(codegen_tests TEST_PREFIX [CODEGEN])

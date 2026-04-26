@@ -25,4 +25,4 @@ target_link_libraries(core_tests
 
 include(${doctest_SOURCE_DIR}/scripts/cmake/doctest.cmake)
 
-doctest_discover_tests(core_tests)
+doctest_discover_tests(core_tests TEST_PREFIX [CORE])
