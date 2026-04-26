@@ -6,7 +6,6 @@
     - INotifyCollectionChanged
 - INotifyPropertyChanged
 - Stack-allocated object properties
-- Reflection
 - ReadOnlyObservableCollection
 # Codegen
 ## Templates

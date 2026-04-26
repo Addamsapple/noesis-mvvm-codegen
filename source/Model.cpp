@@ -3,7 +3,23 @@
 #include <algorithm>
 #include <cassert>
 
+#include <mvvm/PropertyList.h>
+
 namespace mvvm {
+
+const PropertyList & Model::Properties() const {
+    static const PropertyList result;
+    return result;
+}
+
+const BaseProperty * Model::FindProperty(std::string_view name) const {
+    const auto & properties = Properties();
+    auto iter = std::find_if(properties.begin(), properties.end(),
+        [&](const PropertyList::Entry & entry) {
+            return entry.name == name;
+        });
+    return iter == properties.end() ? nullptr : iter->pProperty;
+}
 
 Model::SubscriberId Model::AddSubscriber(Subscriber subscriber) {
     assert(subscriber);
@@ -19,7 +35,7 @@ void Model::RemoveSubscriber(SubscriberId id) {
 
     // std::lower_bound would work, but probably not worth it
     auto iter = std::find_if(_subscribers.begin(), _subscribers.end(), [id](const auto & value) {
-            return value.first == id;
+        return value.first == id;
     });
 
     assert(iter != _subscribers.end());

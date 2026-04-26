@@ -17,7 +17,7 @@ namespace mvvm {
 namespace detail {
     template<typename T, typename = void>
     struct ItemTypes {
-        static_assert(AlwaysFalse<T>::value, "Invalid item type for ViewModelCollection");
+        static_assert(AlwaysFalseV<T>, "Invalid item type for ViewModelCollection");
     };
 
     template<typename T>

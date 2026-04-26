@@ -1,5 +1,7 @@
 #include <{{props.namespace | ns_to_path}}{{props.name}}.h>
 
+#include <mvvm/PropertyList.h>
+
 {% set ns = children | map(attribute="props.namespace") | list %}
 {% set item_ns = children | map(attribute="props.item_namespace") | list %}
 {% set unique_ns = (ns + item_ns) | unique %}

@@ -1,0 +1,13 @@
+{% import "model/utils.jinja" as m_utils -%}
+
+const mvvm::BaseProperty * {{props.name}}::FindProperty(std::string_view name) const {
+    if (auto pProperty = {{m_utils.parent(props)}}::FindProperty(name))
+        return pProperty;
+
+    {% for prop in children %}
+        if (name == "{{prop.props.name}}")
+            return &{{prop.props.name | CONST_CASE}}_PROP;
+    {% endfor -%}
+
+    return nullptr;
+}

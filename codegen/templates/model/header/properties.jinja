@@ -1,21 +1,4 @@
 {% for prop in children %}
-    {% if prop.props.type not in ["class", "collection", "string"] %}
-        using {{prop.props.name | PascalCase}}Type = {{prop.props.type}};
-    {% elif prop.props.type == "string" %}
-        using {{prop.props.name | PascalCase}}Type = std::string;
-    {% elif prop.props.type == "class" %}
-        using {{prop.props.name | PascalCase}}Type = mvvm::SharedPtr<{{prop.props.namespace ~ "::" if prop.props.namespace is defined}}{{prop.props.class}}>;
-    {% else %}
-        {% if prop.props.item_type not in ["class", "string"] %}
-            using {{prop.props.name | PascalCase}}Type = mvvm::SharedPtr<mvvm::ModelCollection<{{prop.props.item_type}}>>;
-        {% elif prop.props.item_type == "string" %}
-            using {{prop.props.name | PascalCase}}Type = mvvm::SharedPtr<mvvm::ModelCollection<std::string>>;
-        {% else %}
-            using {{prop.props.name | PascalCase}}Type = mvvm::SharedPtr<mvvm::ModelCollection<mvvm::SharedPtr<{{prop.props.item_namespace ~ "::" if prop.props.item_namespace is defined}}{{prop.props.item_class}}>>>;
-        {% endif %}
-    {% endif %}
-{% endfor %}
-
-{% for prop in children %}
-    static inline const mvvm::Property<{{prop.props.name | PascalCase}}Type> {{prop.props.name | CONST_CASE}}_PROP;
+    static const mvvm::Property<{{prop.props.name | PascalCase}}Type>
+        {{prop.props.name | CONST_CASE}}_PROP;
 {% endfor %}

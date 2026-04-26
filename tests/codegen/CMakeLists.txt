@@ -28,7 +28,9 @@ set(MODEL_CODEGEN_DEPENDENCIES
     ${CMAKE_CURRENT_SOURCE_DIR}/.clang-format
 
     ${CODEGEN_DIR}/templates/utils.jinja
+    ${CODEGEN_DIR}/templates/model/utils.jinja
 
+    ${CODEGEN_DIR}/templates/model/header/aliases.jinja
     ${CODEGEN_DIR}/templates/model/header/forwards.jinja
     ${CODEGEN_DIR}/templates/model/header/getter.jinja
     ${CODEGEN_DIR}/templates/model/header/includes.jinja
@@ -39,6 +41,8 @@ set(MODEL_CODEGEN_DEPENDENCIES
 
     ${CODEGEN_DIR}/templates/model/source/getter.jinja
     ${CODEGEN_DIR}/templates/model/source/includes.jinja
+    ${CODEGEN_DIR}/templates/model/source/properties.jinja
+    ${CODEGEN_DIR}/templates/model/source/reflection.jinja
     ${CODEGEN_DIR}/templates/model/source/setter.jinja
     ${CODEGEN_DIR}/templates/model/source/skeleton.jinja
 )

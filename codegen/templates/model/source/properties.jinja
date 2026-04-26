@@ -1,0 +1,6 @@
+{% for prop in children %}
+    const mvvm::Property<{{props.name}}::{{prop.props.name | PascalCase}}Type>
+        {{props.name}}::{{prop.props.name | CONST_CASE}}_PROP{
+            &{{props.name}}::Get{{prop.props.name | PascalCase}}
+        };
+{% endfor %}

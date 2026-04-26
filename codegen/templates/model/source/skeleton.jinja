@@ -1,8 +1,28 @@
 {% import "utils.jinja" as utils %}
+{% import "model/utils.jinja" as m_utils -%}
 
 {% include "model/source/includes.jinja" %}
 
 {% call utils.namespace(props.namespace) %}
+
+    namespace {
+
+    const mvvm::PropertyList::Entry PROPERTIES[] = {
+        {% for prop in children %}
+            {"{{prop.props.name}}", &{{props.name}}::{{prop.props.name | CONST_CASE}}_PROP},
+        {% endfor %}
+    };
+
+    }
+
+    const mvvm::PropertyList & {{props.name}}::Properties() const {
+        static const mvvm::PropertyList result(
+            PROPERTIES,
+            std::size(PROPERTIES),
+            &{{m_utils.parent(props)}}::Properties()
+        );
+        return result;
+    }
 
     {% for prop in children %}
         // ------ {{prop.props.name}} ------
@@ -12,4 +32,5 @@
 
     {% endfor %}
 
+    {% include "model/source/properties.jinja" %}
 {% endcall %}

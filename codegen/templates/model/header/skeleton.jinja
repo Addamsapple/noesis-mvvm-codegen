@@ -10,13 +10,17 @@
 
     class {{props.name}} : public {{m_utils.parent(props)}} {
     public:
-        {% include "model/header/properties.jinja" %}
+        {% include "model/header/aliases.jinja" %}
+
+        const mvvm::PropertyList & Properties() const override;
 
         {% for prop in children %}
             // ------ {{prop.props.name}} ------
             {% include "model/header/getter.jinja" %}
             {% include "model/header/setter.jinja" %}
         {% endfor %}
+
+        {% include "model/header/properties.jinja" %}
     private:
         {% include "model/header/members.jinja" %}
     };

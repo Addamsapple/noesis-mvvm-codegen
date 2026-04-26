@@ -10,4 +10,5 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(doctest)
 
 add_subdirectory(core)
+add_subdirectory(reflection)
 add_subdirectory(codegen)

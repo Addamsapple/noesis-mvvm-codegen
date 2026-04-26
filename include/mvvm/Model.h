@@ -1,35 +1,24 @@
 #pragma once
 
 #include <functional>
+#include <string_view>
 #include <vector>
 
+#include <mvvm/Property.h>
 #include <mvvm/SubscriberId.h>
 
 namespace mvvm {
 
-struct BaseProperty {
-    BaseProperty() = default;
-    BaseProperty(const BaseProperty & value) = delete;
-    BaseProperty & operator=(const BaseProperty & value) = delete;
-
-    bool operator==(const BaseProperty & other) const {
-        return this == &other;
-    }
-};
-
-template<typename T>
-struct Property : BaseProperty {
-    using Subscriber = std::function<void (const T & oldValue, const T & newValue)>;
-
-    static const T & Cast(const void * pValue) {
-        return *static_cast<const T *>(pValue);
-    }
-};
+class PropertyList;
 
 class Model {
 public:
     using Subscriber = std::function<void (const BaseProperty & property, const void * pOldValue, const void * pNewValue)>;
     using SubscriberId = mvvm::SubscriberId<Model>;
+
+    virtual const PropertyList & Properties() const;
+
+    const BaseProperty * FindProperty(std::string_view name) const;
 
     SubscriberId AddSubscriber(Subscriber subscriber);
 
@@ -55,4 +44,3 @@ private:
 };
 
 }
-

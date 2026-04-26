@@ -6,14 +6,13 @@ namespace {
 
 class TestModel : public mvvm::Model {
 public:
-    inline static const mvvm::Property<int> INT_PROPERTY;
-
     void SetInt(int value) {
         auto oldValue = _int;
         _int = value;
         _NotifySubscribers(INT_PROPERTY, &oldValue, &_int);
     }
 
+    static inline const mvvm::Property<int> INT_PROPERTY;
 private:
     int _int = 0;
 };
@@ -25,7 +24,6 @@ public:
     void operator()(const mvvm::BaseProperty & property, const void * pOldValue, const void * pNewValue) {
         ++_counter;
     }
-
 private:
     int & _counter;
 };

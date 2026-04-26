@@ -34,6 +34,8 @@ using EnableIfCompatibleT = std::enable_if_t<std::is_convertible_v<T *, U *> || 
 template<typename T>
 class SharedPtr {
 public:
+    using Type = T;
+
     SharedPtr() : SharedPtr(nullptr) {}
 
     SharedPtr(std::nullptr_t) : SharedPtr(nullptr, nullptr) {}

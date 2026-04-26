@@ -1,7 +1,7 @@
 {% macro parent(m_props)%}
-    {% if m_props.parent is not defined %}
+    {%if m_props.parent is not defined -%}
         mvvm::Model
-    {% else %}
+    {%- else -%}
         {{m_props.parent_namespace ~ "::" if m_props.parent_namespace is defined}}{{m_props.parent}}
-    {% endif %}
+    {%- endif %}
 {% endmacro %}

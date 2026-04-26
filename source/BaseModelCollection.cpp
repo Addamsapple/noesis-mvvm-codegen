@@ -3,7 +3,11 @@
 #include <algorithm>
 #include <cassert>
 
+#include <mvvm/ValueType.h>
+
 namespace mvvm {
+
+ValueType BaseModelCollection::Type() const { return ValueType::Unknown; }
 
 BaseModelCollection::~BaseModelCollection() = default;
 
@@ -21,7 +25,7 @@ void BaseModelCollection::RemoveSubscriber(SubscriberId id) {
 
     // std::lower_bound would work, but probably not worth it
     auto iter = std::find_if(_subscribers.begin(), _subscribers.end(), [id](const auto & value) {
-            return value.first == id;
+        return value.first == id;
     });
 
     assert(iter != _subscribers.end());
