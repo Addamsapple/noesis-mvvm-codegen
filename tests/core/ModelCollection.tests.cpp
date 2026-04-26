@@ -9,6 +9,8 @@ using IntCollection = mvvm::ModelCollection<int>;
 
 using Event = mvvm::BaseModelCollection::Event;
 
+namespace {
+
 struct Record {
     Event event;
 
@@ -41,6 +43,8 @@ public:
 private:
     Records & _records;
 };
+
+}
 
 TEST_SUITE("ModelCollection") {
     TEST_CASE("Initial size is 0") {

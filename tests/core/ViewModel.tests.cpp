@@ -5,6 +5,8 @@
 #include <mvvm/Cache.h>
 #include <mvvm/ViewModel.h>
 
+namespace {
+
 class MutableViewModel : public mvvm::ViewModel {
 public:
     using mvvm::ViewModel::ViewModel;
@@ -34,6 +36,8 @@ struct TestContext {
 
     mvvm::ViewModel::Context Get() { return { factory, cache}; }
 };
+
+}
 
 TEST_SUITE("ViewModel") {
     TEST_CASE("Empty view model is created from empty model") {

@@ -2,6 +2,8 @@
 
 #include <mvvm/Model.h>
 
+namespace {
+
 class TestModel : public mvvm::Model {
 public:
     inline static const mvvm::Property<int> INT_PROPERTY;
@@ -27,6 +29,8 @@ public:
 private:
     int & _counter;
 };
+
+}
 
 TEST_SUITE("Model") {
     TEST_CASE("Properties are equal to themselves") {
