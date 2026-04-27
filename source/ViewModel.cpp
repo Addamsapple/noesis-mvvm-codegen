@@ -5,12 +5,11 @@
 #include <mvvm/Cache.h>
 #include <mvvm/SharedPtr.h>
 #include <mvvm/Subscription.h>
+#include <mvvm/ViewModelFactory.h>
 
 namespace mvvm {
 
-// ViewModel
-
-ViewModel::ViewModel(const Key<Factory> &, Context context) : _context(context) {}
+ViewModel::ViewModel(const Key<ViewModelFactory> &, Context context) : _context(context) {}
 
 Noesis::Ptr<ViewModel> ViewModel::CreateFromModel(const SharedPtr<Model> & pModel, Context context) {
     if (!pModel) return {};
@@ -57,22 +56,6 @@ void ViewModel::_Observe(const SharedPtr<Model> & pModel) {
             _HandleModelChanged(property, oldValue, newValue);
         }
     );
-}
-
-// Factory
-
-ViewModel::Factory::Function ViewModel::Factory::Find(std::type_index type) const {
-    if (auto iter = _map.find(type); iter != _map.end())
-        return iter->second;
-    return {};
-}
-
-ViewModel::Factory::Factory(Map map) : _map(std::move(map)) {}
-
-// Builder
-
-ViewModel::Factory ViewModel::Factory::Builder::Build() && {
-    return Factory(std::move(_map));
 }
 
 }

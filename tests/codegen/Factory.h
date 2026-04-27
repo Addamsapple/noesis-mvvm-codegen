@@ -1,5 +1,5 @@
 #pragma once
 
-#include <mvvm/ViewModel.h>
+#include <mvvm/ViewModelFactory.h>
 
-extern const mvvm::ViewModel::Factory TEST_FACTORY;
+extern const mvvm::ViewModelFactory TEST_FACTORY;

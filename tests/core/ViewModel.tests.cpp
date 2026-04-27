@@ -4,6 +4,7 @@
 
 #include <mvvm/Cache.h>
 #include <mvvm/ViewModel.h>
+#include <mvvm/ViewModelFactory.h>
 
 namespace {
 
@@ -31,7 +32,7 @@ protected:
 
 template<typename... Ts>
 struct TestContext {
-    mvvm::ViewModel::Factory factory = mvvm::MakeFactory<Ts...>();
+    mvvm::ViewModelFactory factory = mvvm::MakeFactory<Ts...>();
     mvvm::Cache cache;
 
     mvvm::ViewModel::Context Get() { return { factory, cache}; }

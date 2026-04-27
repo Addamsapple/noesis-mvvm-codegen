@@ -3,6 +3,7 @@
 #include <mvvm/Cache.h>
 #include <mvvm/ViewModel.h>
 #include <mvvm/ViewModelCollection.h>
+#include <mvvm/ViewModelFactory.h>
 
 TEST_SUITE("ViewModelCollection") {
     TEST_CASE("View model synchronizes to model") {

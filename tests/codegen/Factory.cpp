@@ -16,8 +16,8 @@
 
 namespace {
 
-mvvm::ViewModel::Factory MakeTestFactory() {
-    mvvm::ViewModel::Factory::Builder builder;
+mvvm::ViewModelFactory MakeTestFactory() {
+    mvvm::ViewModelFactory::Builder builder;
     builder.Register<viewmodel::League>();
     builder.Register<viewmodel::Team>();
     builder.Register<viewmodel::Player>();
@@ -29,4 +29,4 @@ mvvm::ViewModel::Factory MakeTestFactory() {
 
 }
 
-const mvvm::ViewModel::Factory TEST_FACTORY = MakeTestFactory();
+const mvvm::ViewModelFactory TEST_FACTORY = MakeTestFactory();

@@ -13,6 +13,7 @@ set(MVVM_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/source/Model.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/source/PropertyList.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/source/ViewModel.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/source/ViewModelFactory.cpp
 )
 set(MVVM_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
