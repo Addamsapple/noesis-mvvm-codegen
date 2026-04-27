@@ -9,8 +9,6 @@ add_executable(core_tests
     ${MVVM_SOURCES}
 )
 
-find_library(libNoesis Noesis REQUIRED)
-
 target_include_directories(core_tests
     PRIVATE
         ${MVVM_INCLUDE_DIR}

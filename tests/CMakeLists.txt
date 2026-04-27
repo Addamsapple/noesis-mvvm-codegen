@@ -9,6 +9,8 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(doctest)
 
+find_library(libNoesis Noesis REQUIRED)
+
 add_subdirectory(core)
 add_subdirectory(reflection)
 add_subdirectory(codegen)

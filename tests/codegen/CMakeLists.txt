@@ -167,8 +167,6 @@ add_executable(codegen_tests
     ${GENERATED_SOURCES}
 )
 
-find_library(libNoesis Noesis REQUIRED)
-
 target_include_directories(codegen_tests
     PRIVATE
         generated
