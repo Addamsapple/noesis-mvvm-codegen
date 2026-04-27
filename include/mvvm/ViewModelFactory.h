@@ -7,6 +7,7 @@
 
 #include <NsCore/Ptr.h>
 
+#include <mvvm/Model.h>
 #include <mvvm/ViewModel.h>
 
 namespace mvvm {
