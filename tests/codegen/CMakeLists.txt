@@ -163,20 +163,19 @@ add_executable(codegen_tests
     Outfielder.tests.cpp
     Midfielder.tests.cpp
 
-    ${MVVM_SOURCES}
     ${GENERATED_SOURCES}
 )
+
+target_precompile_headers(codegen_tests REUSE_FROM core)
 
 target_include_directories(codegen_tests
     PRIVATE
         generated
-        ${MVVM_INCLUDE_DIR}
-        ${NOESIS_INCLUDE_DIR}
 )
 
 target_link_libraries(codegen_tests
     PRIVATE
-        ${libNoesis}
+        core
         doctest::doctest
 )
 

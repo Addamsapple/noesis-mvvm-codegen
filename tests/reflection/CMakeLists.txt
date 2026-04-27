@@ -5,21 +5,13 @@ add_executable(reflection_tests
     ModelCollection.tests.cpp
     Property.tests.cpp
     PropertyList.tests.cpp
-
-    ${MVVM_SOURCES}
 )
 
-# TODO: shouldn't need Noesis
-
-target_include_directories(reflection_tests
-    PRIVATE
-        ${MVVM_INCLUDE_DIR}
-        ${NOESIS_INCLUDE_DIR}
-)
+target_precompile_headers(reflection_tests REUSE_FROM core)
 
 target_link_libraries(reflection_tests
     PRIVATE
-        ${libNoesis}
+        core
         doctest::doctest
 )
 

@@ -5,19 +5,13 @@ add_executable(core_tests
     ModelCollection.tests.cpp
     ViewModel.tests.cpp
     ViewModelCollection.tests.cpp
-
-    ${MVVM_SOURCES}
 )
 
-target_include_directories(core_tests
-    PRIVATE
-        ${MVVM_INCLUDE_DIR}
-        ${NOESIS_INCLUDE_DIR}
-)
+target_precompile_headers(core_tests REUSE_FROM core)
 
 target_link_libraries(core_tests
     PRIVATE
-        ${libNoesis}
+        core
         doctest::doctest
 )
 
