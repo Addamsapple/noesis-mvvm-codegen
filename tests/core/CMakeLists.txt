@@ -15,6 +15,13 @@ target_link_libraries(core_tests
         doctest::doctest
 )
 
+add_custom_command(TARGET core_tests POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy -t
+        $<TARGET_FILE_DIR:core_tests>
+        $<TARGET_RUNTIME_DLLS:core_tests>
+    COMMAND_EXPAND_LISTS
+)
+
 include(${doctest_SOURCE_DIR}/scripts/cmake/doctest.cmake)
 
 doctest_discover_tests(core_tests TEST_PREFIX [CORE])

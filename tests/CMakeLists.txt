@@ -9,14 +9,26 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(doctest)
 
-find_library(libNoesis Noesis REQUIRED)
+add_library(Noesis SHARED IMPORTED)
+
+if(WIN32)
+    set_target_properties(Noesis PROPERTIES
+        IMPORTED_IMPLIB ${NOESIS_DIR}/lib/Noesis.lib
+        IMPORTED_LOCATION ${NOESIS_DIR}/bin/Noesis.dll
+        INTERFACE_INCLUDE_DIRECTORIES ${NOESIS_DIR}/include
+    )
+else()
+    set_target_properties(Noesis PROPERTIES
+        IMPORTED_LOCATION ${NOESIS_DIR}/lib/libNoesis.so
+        INTERFACE_INCLUDE_DIRECTORIES ${NOESIS_DIR}/include
+    )
+endif()
 
 add_library(core STATIC ${MVVM_SOURCES})
 
 target_include_directories(core
     PUBLIC
         ${MVVM_INCLUDE_DIR}
-        ${NOESIS_INCLUDE_DIR}
 )
 
 target_precompile_headers(core
@@ -30,7 +42,7 @@ target_precompile_headers(core
 
 target_link_libraries(core
     PUBLIC
-        ${libNoesis}
+        Noesis
 )
 
 add_subdirectory(core)

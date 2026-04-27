@@ -10,10 +10,10 @@ class TestModel : public mvvm::Model {
 public:
     // int32_t
     int32_t GetInt32() const {
-        return _int32;
+        return _i32;
     }
     void SetInt32(int32_t value) {
-        _int32 = value;
+        _i32 = value;
     }
 
     // Model
@@ -44,7 +44,7 @@ public:
     };
 
 private:
-    int32_t _int32 = 0;
+    int32_t _i32 = 0;
     mvvm::SharedPtr<TestModel> _pModel;
     mvvm::SharedPtr<mvvm::ModelCollection<int>> _pCollection;
 };

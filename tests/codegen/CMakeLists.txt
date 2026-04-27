@@ -1,25 +1,32 @@
 find_package(Python3 REQUIRED COMPONENTS Interpreter)
 
 set(VENV_DIR ${CMAKE_CURRENT_BINARY_DIR}/venv)
-set(VENV_PYTHON ${VENV_DIR}/bin/python)
+
+if(WIN32)
+    set(VENV_PYTHON ${VENV_DIR}/Scripts/python)
+else()
+    set(VENV_PYTHON ${VENV_DIR}/bin/python)
+endif()
+
 set(PYTHON_REQUIREMENTS ${CODEGEN_DIR}/requirements.txt)
 
 add_custom_command(
-    OUTPUT ${VENV_DIR}
+    OUTPUT ${VENV_DIR}/../venv.stamp
     COMMAND ${Python3_EXECUTABLE} -m venv ${VENV_DIR}
+    COMMAND ${CMAKE_COMMAND} -E touch ${VENV_DIR}/../venv.stamp
     COMMENT "Creating a virtual Python environment..."
 )
 
 add_custom_command(
-    OUTPUT ${VENV_DIR}/venv.stamp
-    DEPENDS ${VENV_DIR} ${PYTHON_REQUIREMENTS}
+    OUTPUT ${VENV_DIR}/../pip.stamp
+    DEPENDS ${VENV_DIR}/../venv.stamp ${PYTHON_REQUIREMENTS}
     COMMAND ${VENV_PYTHON} -m pip install --quiet --upgrade pip
     COMMAND ${VENV_PYTHON} -m pip install --quiet -r ${PYTHON_REQUIREMENTS}
-    COMMAND ${CMAKE_COMMAND} -E touch ${VENV_DIR}/venv.stamp
+    COMMAND ${CMAKE_COMMAND} -E touch ${VENV_DIR}/../pip.stamp
     COMMENT "Installing required Python packages..."
 )
 
-add_custom_target(codegen_venv DEPENDS ${VENV_DIR}/venv.stamp)
+add_custom_target(codegen_venv DEPENDS ${VENV_DIR}/../pip.stamp)
 
 set(MODEL_CODEGEN_DEPENDENCIES
     codegen_venv
@@ -180,6 +187,13 @@ target_link_libraries(codegen_tests
 )
 
 add_dependencies(codegen_tests model_codegen viewmodel_codegen)
+
+add_custom_command(TARGET codegen_tests POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy -t
+        $<TARGET_FILE_DIR:codegen_tests>
+        $<TARGET_RUNTIME_DLLS:codegen_tests>
+    COMMAND_EXPAND_LISTS
+)
 
 include(${doctest_SOURCE_DIR}/scripts/cmake/doctest.cmake)
 
