@@ -5,6 +5,7 @@ add_executable(reflection_tests
     ModelCollection.tests.cpp
     Property.tests.cpp
     PropertyList.tests.cpp
+    Resolve.tests.cpp
 )
 
 target_precompile_headers(reflection_tests REUSE_FROM core)
