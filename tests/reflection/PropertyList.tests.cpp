@@ -20,9 +20,9 @@ TEST_SUITE("PropertyList") {
     }
 
     TEST_CASE("Range-based for loop iterates over all properties in top-down order") {
-        const mvvm::Property<int> prop0;
-        const mvvm::Property<int> prop1;
-        const mvvm::Property<int> prop2;
+        const mvvm::Property<int> prop0({});
+        const mvvm::Property<int> prop1({});
+        const mvvm::Property<int> prop2({});
 
         const mvvm::PropertyList::Entry entries0[] = {"0", &prop0};
         const mvvm::PropertyList::Entry entries1[] = {"1", &prop1};

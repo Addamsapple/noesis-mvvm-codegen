@@ -55,50 +55,50 @@ TEST_SUITE("Property") {
     TEST_CASE("Contained type is consistent with reported one") {
         // signed
         SUBCASE("int8_t") {
-            CHECK(mvvm::Property<int8_t>().Type() == mvvm::ValueType::Int8);
+            CHECK(mvvm::Property<int8_t>({}).Type() == mvvm::ValueType::Int8);
         }
         SUBCASE("int16_t") {
-            CHECK(mvvm::Property<int16_t>().Type() == mvvm::ValueType::Int16);
+            CHECK(mvvm::Property<int16_t>({}).Type() == mvvm::ValueType::Int16);
         }
         SUBCASE("int32_t") {
-            CHECK(mvvm::Property<int32_t>().Type() == mvvm::ValueType::Int32);
+            CHECK(mvvm::Property<int32_t>({}).Type() == mvvm::ValueType::Int32);
         }
         SUBCASE("int64_t") {
-            CHECK(mvvm::Property<int64_t>().Type() == mvvm::ValueType::Int64);
+            CHECK(mvvm::Property<int64_t>({}).Type() == mvvm::ValueType::Int64);
         }
 
         // unsigned
         SUBCASE("uint8_t") {
-            CHECK(mvvm::Property<uint8_t>().Type() == mvvm::ValueType::UInt8);
+            CHECK(mvvm::Property<uint8_t>({}).Type() == mvvm::ValueType::UInt8);
         }
         SUBCASE("uint16_t") {
-            CHECK(mvvm::Property<uint16_t>().Type() == mvvm::ValueType::UInt16);
+            CHECK(mvvm::Property<uint16_t>({}).Type() == mvvm::ValueType::UInt16);
         }
         SUBCASE("uint32_t") {
-            CHECK(mvvm::Property<uint32_t>().Type() == mvvm::ValueType::UInt32);
+            CHECK(mvvm::Property<uint32_t>({}).Type() == mvvm::ValueType::UInt32);
         }
         SUBCASE("uint64_t") {
-            CHECK(mvvm::Property<uint64_t>().Type() == mvvm::ValueType::UInt64);
+            CHECK(mvvm::Property<uint64_t>({}).Type() == mvvm::ValueType::UInt64);
         }
 
         // floating-point
         SUBCASE("float") {
-            CHECK(mvvm::Property<float>().Type() == mvvm::ValueType::Float);
+            CHECK(mvvm::Property<float>({}).Type() == mvvm::ValueType::Float);
         }
         SUBCASE("double") {
-            CHECK(mvvm::Property<double>().Type() == mvvm::ValueType::Double);
+            CHECK(mvvm::Property<double>({}).Type() == mvvm::ValueType::Double);
         }
 
         // class
         SUBCASE("string") {
-            CHECK(mvvm::Property<std::string>().Type() == mvvm::ValueType::String);
+            CHECK(mvvm::Property<std::string>({}).Type() == mvvm::ValueType::String);
         }
         SUBCASE("Model") {
-            CHECK(mvvm::Property<mvvm::SharedPtr<mvvm::Model>>().Type()
+            CHECK(mvvm::Property<mvvm::SharedPtr<mvvm::Model>>({}).Type()
                 == mvvm::ValueType::Model);
         }
         SUBCASE("Collection") {
-            CHECK(mvvm::Property<mvvm::SharedPtr<mvvm::ModelCollection<int>>>().Type()
+            CHECK(mvvm::Property<mvvm::SharedPtr<mvvm::ModelCollection<int>>>({}).Type()
                 == mvvm::ValueType::Collection);
         }
     }

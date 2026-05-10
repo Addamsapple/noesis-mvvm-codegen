@@ -12,7 +12,7 @@ public:
         _NotifySubscribers(INT_PROPERTY, &oldValue, &_int);
     }
 
-    static inline const mvvm::Property<int> INT_PROPERTY;
+    static inline const mvvm::Property<int> INT_PROPERTY{{}};
 private:
     int _int = 0;
 };
@@ -32,15 +32,15 @@ private:
 
 TEST_SUITE("Model") {
     TEST_CASE("Properties are equal to themselves") {
-        mvvm::Property<int> a;
+        mvvm::Property<int> a({});
         mvvm::BaseProperty & aRef = a;
 
         CHECK(aRef == a);
     }
 
     TEST_CASE("Different properties are not equal") {
-        mvvm::Property<int> a;
-        mvvm::Property<int> b;
+        mvvm::Property<int> a({});
+        mvvm::Property<int> b({});
 
         mvvm::BaseProperty & aRef = a;
         mvvm::BaseProperty & bRef = b;

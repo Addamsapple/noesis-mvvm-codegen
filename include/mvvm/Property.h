@@ -43,7 +43,9 @@ class Property final : public BaseProperty {
 public:
     using Subscriber = std::function<void (const T & oldValue, const T & newValue)>;
 
-    Property() : _pGetter(nullptr), _pSetter(nullptr) {}
+    struct Null {};
+
+    Property(Null) : _pGetter(nullptr), _pSetter(nullptr) {}
 
     template<typename U>
     Property(detail::Getter<U, T> pGetter, detail::Setter<U, T> pSetter = nullptr) :

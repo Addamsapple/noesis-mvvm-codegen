@@ -7,8 +7,8 @@ namespace {
 
 class TestModel : public mvvm::Model {
 public:
-    static inline const mvvm::Property<int> PROP_1;
-    static inline const mvvm::Property<double> PROP_2;
+    static inline const mvvm::Property<int> PROP_1{{}};
+    static inline const mvvm::Property<double> PROP_2{{}};
 
     static inline const mvvm::PropertyList::Entry PROPERTIES[] = {
         {"prop1", &TestModel::PROP_1},
