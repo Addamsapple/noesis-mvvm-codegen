@@ -68,7 +68,7 @@ is supplied to Jinja as
 ```
 
 ## Testing
-Test suites `core` and `codegen` can be built and run via
+Test suites `core`, `reflection` and `codegen` can be built and run via
 ```bash
 cmake -B build && cd build && cmake --build . && ctest
 ```
