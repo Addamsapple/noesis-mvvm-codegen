@@ -4,11 +4,11 @@
 #include <string_view>
 #include <vector>
 
-#include <mvvm/Property.h>
 #include <mvvm/SubscriberId.h>
 
 namespace mvvm {
 
+class BaseProperty;
 class PropertyList;
 
 class Model {
@@ -22,14 +22,16 @@ public:
 
     SubscriberId AddSubscriber(Subscriber subscriber);
 
-    template<typename T>
+    // TODO: move to different header
+
+    /*template<typename T>
     SubscriberId AddSubscriber(const Property<T> & property, typename Property<T>::Subscriber subscriber) {
         auto pProperty = &property;
         return AddSubscriber([=](const BaseProperty & changedProperty, const void * pOldValue, const void * pNewValue) {
             if (changedProperty == *pProperty)
                 subscriber(Property<T>::Cast(pOldValue), Property<T>::Cast(pNewValue));
         });
-    }
+    }*/
 
     void RemoveSubscriber(SubscriberId id);
 

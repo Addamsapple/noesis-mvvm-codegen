@@ -1,6 +1,7 @@
 #include <doctest/doctest.h>
 
 #include <mvvm/Model.h>
+#include <mvvm/Property.h>
 
 namespace {
 

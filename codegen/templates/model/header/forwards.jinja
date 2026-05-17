@@ -1,5 +1,15 @@
 {% import "utils.jinja" as utils %}
 
+namespace mvvm {
+
+template<typename T>
+class ModelCollection;
+
+template<typename T>
+class Property;
+
+}
+
 {% set ns = children | map(attribute="props.namespace") | list %}
 {% set item_ns = children | map(attribute="props.item_namespace") | list %}
 {% set unique_ns = (ns + item_ns) | unique %}

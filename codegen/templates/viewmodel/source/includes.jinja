@@ -4,6 +4,7 @@
 #include <NsGui/DependencyData.h>
 
 #include <{{props.model_namespace | default(props.namespace) | ns_to_path}}{{props.model | default(props.name)}}.h>
+#include <mvvm/Property.h>
 
 {% set ns = children | map(attribute="props.namespace") | list %}
 {% set item_ns = children | map(attribute="props.item_namespace") | list %}

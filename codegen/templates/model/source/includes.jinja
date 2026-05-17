@@ -1,5 +1,7 @@
 #include <{{props.namespace | ns_to_path}}{{props.name}}.h>
 
+#include <mvvm/ModelCollection.h>
+#include <mvvm/Property.h>
 #include <mvvm/PropertyList.h>
 
 {% set ns = children | map(attribute="props.namespace") | list %}

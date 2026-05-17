@@ -1,5 +1,8 @@
 #include <doctest/doctest.h>
 
+#include <mvvm/Property.h>
+#include <mvvm/PropertyList.h>
+#include <mvvm/ModelCollection.h>
 #include <mvvm/Resolve.h>
 #include <mvvm/Result.h>
 
