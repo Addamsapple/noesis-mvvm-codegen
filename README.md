@@ -14,13 +14,13 @@ Code generation tools for [NoesisGUI](https://www.noesisengine.com/).
 - C++17
 - Python
 - CMake
-- ClangFormat
 
 ### Python
 - Jinja2
 - lxml
 - case-converter
 - f-yeah
+- clang-format
 
 ## Architecture
 
