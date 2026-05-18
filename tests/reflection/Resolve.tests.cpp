@@ -1,5 +1,7 @@
 #include <doctest/doctest.h>
 
+#include <ostream>
+
 #include <mvvm/Property.h>
 #include <mvvm/PropertyList.h>
 #include <mvvm/ModelCollection.h>

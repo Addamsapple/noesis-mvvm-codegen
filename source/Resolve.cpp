@@ -69,12 +69,12 @@ ResolveResult Resolve(BaseModelCollection * pCollection, std::string_view path) 
 
     uint32_t itemIndex;
     auto conversion = std::from_chars(
-        path.begin() + 1,
-        path.begin() + splitIndex,
+        path.data() + 1,
+        path.data() + splitIndex,
         itemIndex
     );
 
-    if (conversion.ptr != path.begin() + splitIndex
+    if (conversion.ptr != path.data() + splitIndex
         || conversion.ec == std::errc::result_out_of_range)
         return {{ ResolveError::Type::InvalidIndex, path }};
     if (itemIndex >= pCollection->Size())
