@@ -109,8 +109,7 @@ TEST_SUITE("Resolve") {
         auto result = mvvm::Resolve(&collection, ":1");
 
         REQUIRE(result.HasValue());
-        CHECK(static_cast<mvvm::ModelCollection<int> *>(
-            result.Value().pCollection)->Get(result.Value().index) == 20);
+        CHECK(result.Value().Evaluate().As<int>() == 20);
     }
 
     TEST_CASE("Invalid property produces an error") {
@@ -142,10 +141,7 @@ TEST_SUITE("Resolve") {
         auto result = mvvm::Resolve(&parent, ".num");
 
         REQUIRE(result.HasValue());
-
-        int32_t num;
-        result.Value().pProperty->Get(*result.Value().pModel, &num);
-        CHECK(num == 100);
+        CHECK(result.Value().Evaluate().As<int32_t>() == 100);
     }
 
     TEST_CASE("Circular path is traversed") {
@@ -160,9 +156,6 @@ TEST_SUITE("Resolve") {
         );
 
         REQUIRE(result.HasValue());
-
-        int32_t num;
-        result.Value().pProperty->Get(*result.Value().pModel, &num);
-        CHECK(num == 200);
+        CHECK(result.Value().Evaluate().As<int32_t>() == 200);
     }
 }

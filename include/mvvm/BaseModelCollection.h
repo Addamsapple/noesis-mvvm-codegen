@@ -8,6 +8,7 @@
 
 namespace mvvm {
 
+class Value;
 enum class ValueType;
 
 class BaseModelCollection {
@@ -28,6 +29,9 @@ public:
     virtual void Remove(uint32_t index) = 0;
     virtual void Clear() = 0;
     virtual uint32_t Size() const = 0;
+
+    // TODO: opaque interfaces for Insert/Add/Set?
+    virtual Value GetValue(uint32_t index) const = 0;
 
     virtual ValueType Type() const;
 

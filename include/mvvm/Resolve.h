@@ -11,11 +11,12 @@
 
 namespace mvvm {
 
-// TODO: provide more convenient access mechanisms
-struct ResolvedValue {
+struct DeferredValue {
+    Value Evaluate() const;
+
     enum class Type {
         Property,
-        Item,
+        Item
     } type;
 
     Model * pModel;
@@ -41,7 +42,7 @@ struct ResolveError {
     std::string_view path;
 };
 
-using ResolveResult = Result<ResolvedValue, ResolveError>;
+using ResolveResult = Result<DeferredValue, ResolveError>;
 
 ResolveResult Resolve(Model * pModel, std::string_view path);
 ResolveResult Resolve(BaseModelCollection * pCollection, std::string_view path);

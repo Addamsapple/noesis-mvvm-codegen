@@ -6,6 +6,8 @@
 
 #include <mvvm/BaseProperty.h>
 #include <mvvm/SharedPtr.h>
+#include <mvvm/Value.h>
+#include <mvvm/ValueTraits.h>
 #include <mvvm/ValueTypeOf.h>
 
 namespace mvvm {
@@ -15,26 +17,14 @@ class Model;
 
 namespace detail {
 
-template<typename T>
-struct ValueHandle {
-    using Type = T;
-};
-
-template<>
-struct ValueHandle<std::string> {
-    using Type = const std::string &;
-};
-
-template<typename T>
-struct ValueHandle<SharedPtr<T>> {
-    using Type = const SharedPtr<T> &;
-};
-
 template<typename T, typename U>
 using Getter = typename ValueHandle<U>::Type (T::*)() const;
 
 template<typename T, typename U>
 using Setter = void (T::*)(typename ValueHandle<U>::Type);
+
+// for tag dispatch
+struct Null {};
 
 }
 
@@ -43,9 +33,7 @@ class Property final : public BaseProperty {
 public:
     using Subscriber = std::function<void (const T & oldValue, const T & newValue)>;
 
-    struct Null {};
-
-    Property(Null) : _pGetter(nullptr), _pSetter(nullptr) {}
+    Property(detail::Null) : _pGetter(nullptr), _pSetter(nullptr) {}
 
     template<typename U>
     Property(detail::Getter<U, T> pGetter, detail::Setter<U, T> pSetter = nullptr) :
@@ -60,26 +48,28 @@ public:
         return *static_cast<const T *>(pValue);
     }
 
-    void Get(const Model & model, void * pValue) const override {
+    Value Get(const Model & model) const override {
         if constexpr(ValueTypeOfV<T> == ValueType::Model)
-            *static_cast<SharedPtr<Model> *>(pValue) = std::invoke(_pGetter, model);
+            return std::invoke(_pGetter, model)
+                .template StaticCast<mvvm::Model>();
         else if constexpr(ValueTypeOfV<T> == ValueType::Collection)
-            *static_cast<SharedPtr<BaseModelCollection> *>(pValue) = std::invoke(_pGetter, model);
+            return std::invoke(_pGetter, model)
+                .template StaticCast<mvvm::BaseModelCollection>();
         else
-            *static_cast<T *>(pValue) = std::invoke(_pGetter, model); // TODO: strings are copied
+            return std::invoke(_pGetter, model); // TODO: strings are copied
     }
 
-    void Set(Model & model, const void * pValue) const override {
-        if constexpr(ValueTypeOfV<T> == ValueType::Model) {
-            auto pCastValue = static_cast<const SharedPtr<Model> *>(pValue)
-                ->DynamicCast<typename T::Type>();
-            std::invoke(_pSetter, model, pCastValue);
-        } else if constexpr(ValueTypeOfV<T> == ValueType::Collection) {
-            auto pCastValue = static_cast<const SharedPtr<BaseModelCollection> *>(pValue)
-                ->DynamicCast<typename T::Type>();
-            std::invoke(_pSetter, model, pCastValue);
-        } else
-            std::invoke(_pSetter, model, *static_cast<const T *>(pValue));
+    void Set(Model & model, const Value & value) const override {
+        assert(value.Type() == ValueTypeOfV<T>);
+
+        if constexpr(ValueTypeOfV<T> == ValueType::Model)
+            std::invoke(_pSetter, model, value.As<SharedPtr<Model>>()
+                .DynamicCast<typename T::Type>());
+        else if constexpr(ValueTypeOfV<T> == ValueType::Collection)
+            std::invoke(_pSetter, model, value.As<SharedPtr<BaseModelCollection>>()
+                .DynamicCast<typename T::Type>());
+        else
+            std::invoke(_pSetter, model, value.As<T>()); // TODO: strings are copied
     }
 
     ValueType Type() const override { return ValueTypeOfV<T>; }

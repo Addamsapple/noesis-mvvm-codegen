@@ -12,8 +12,8 @@ public:
     static inline const mvvm::Property<double> PROP_2{{}};
 
     static inline const mvvm::PropertyList::Entry PROPERTIES[] = {
-        {"prop1", &TestModel::PROP_1},
-        {"prop2", &TestModel::PROP_2},
+        {"prop1", &PROP_1},
+        {"prop2", &PROP_2},
     };
 
     const mvvm::PropertyList & Properties() const override {

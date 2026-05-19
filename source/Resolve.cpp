@@ -3,6 +3,8 @@
 #include <charconv>
 #include <system_error>
 
+#include <mvvm/Value.h>
+
 namespace mvvm {
 
 namespace {
@@ -14,6 +16,13 @@ size_t NextDelimiter(std::string_view path) {
     return path.size();
 }
 
+}
+
+Value DeferredValue::Evaluate() const {
+    switch(type) {
+        case Type::Property: return pProperty->Get(*pModel);
+        case Type::Item: return pCollection->GetValue(index);
+    }
 }
 
 ResolveResult Resolve(Model * pModel, std::string_view path) {
@@ -32,7 +41,7 @@ ResolveResult Resolve(Model * pModel, std::string_view path) {
 
     if (splitIndex == path.size())
         return {{
-            ResolvedValue::Type::Property,
+            DeferredValue::Type::Property,
             pModel,
             pProperty,
             nullptr,
@@ -42,16 +51,16 @@ ResolveResult Resolve(Model * pModel, std::string_view path) {
     auto nextPath = path.substr(splitIndex);
 
     switch(pProperty->Type()) {
-        case ValueType::Model: {
-            SharedPtr<Model> pResolvedModel;
-            pProperty->Get(*pModel, &pResolvedModel);
-            return Resolve(pResolvedModel.Get(), nextPath);
-        }
-        case ValueType::Collection: {
-            SharedPtr<BaseModelCollection> pResolvedCollection;
-            pProperty->Get(*pModel, &pResolvedCollection);
-            return Resolve(pResolvedCollection.Get(), nextPath);
-        }
+        case ValueType::Model:
+            return Resolve(
+                pProperty->Get(*pModel).As<SharedPtr<Model>>().Get(),
+                nextPath
+            );
+        case ValueType::Collection:
+            return Resolve(
+                pProperty->Get(*pModel).As<SharedPtr<BaseModelCollection>>().Get(),
+                nextPath
+            );
         default:
             return {{ ResolveError::Type::UnexpectedPrimitive, nextPath }};
     }
@@ -82,7 +91,7 @@ ResolveResult Resolve(BaseModelCollection * pCollection, std::string_view path) 
 
     if (splitIndex == path.size())
         return {{
-            ResolvedValue::Type::Item,
+            DeferredValue::Type::Item,
             nullptr,
             nullptr,
             pCollection,
@@ -92,11 +101,11 @@ ResolveResult Resolve(BaseModelCollection * pCollection, std::string_view path) 
     auto nextPath = path.substr(splitIndex);
 
     switch(pCollection->Type()) {
-        case ValueType::Model: {
-            auto pModel = static_cast<BaseModelPtrCollection *>(pCollection)
-                ->GetModel(itemIndex);
-            return Resolve(pModel.Get(), nextPath);
-        }
+        case ValueType::Model:
+            return Resolve(
+                static_cast<BaseModelPtrCollection *>(pCollection)->GetModel(itemIndex).Get(),
+                nextPath
+            );
         case ValueType::Collection:
             return {{ ResolveError::Type::UnexpectedCollection, nextPath }};
         default:

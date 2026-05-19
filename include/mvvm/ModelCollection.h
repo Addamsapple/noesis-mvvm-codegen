@@ -8,6 +8,7 @@
 #include <mvvm/BaseModelCollection.h>
 #include <mvvm/BaseModelPtrCollection.h>
 #include <mvvm/SharedPtr.h>
+#include <mvvm/Value.h>
 #include <mvvm/ValueTypeOf.h>
 
 namespace mvvm {
@@ -93,6 +94,15 @@ public:
         auto oldValue = std::move(*iter);
         _items.erase(iter);
         this->_NotifySubscribers(BaseModelCollection::Event::ItemRemoved, index, &oldValue, 0, nullptr);
+    }
+
+    Value GetValue(uint32_t index) const override {
+        if constexpr(ValueTypeOfV<T> == ValueType::Model)
+            return _items[index].template StaticCast<Model>();
+        else if constexpr(ValueTypeOfV<T> == ValueType::Collection)
+            return _items[index].template StaticCast<BaseModelCollection>();
+        else
+            return _items[index];
     }
 
     const T & Get(uint32_t index) { return _items[index]; }

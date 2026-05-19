@@ -109,30 +109,30 @@ TEST_SUITE("Property") {
         SUBCASE("int32_t") {
             model.SetInt32(5);
 
-            int32_t output;
-            TestModel::INT32_PROP.Get(model, static_cast<void *>(&output));
+            auto result = TestModel::INT32_PROP.Get(model);
 
-            CHECK(output == 5);
+            REQUIRE(result.Type() == mvvm::ValueType::Int32);
+            CHECK(result.As<int32_t>() == 5);
         }
 
         SUBCASE("Model") {
             auto pModel = mvvm::SharedPtr<TestModel>::Make();
             model.SetModel(pModel);
 
-            mvvm::SharedPtr<mvvm::Model> output;
-            TestModel::MODEL_PROP.Get(model, static_cast<void *>(&output));
+            auto result = TestModel::MODEL_PROP.Get(model);
 
-            CHECK(output == pModel);
+            REQUIRE(result.Type() == mvvm::ValueType::Model);
+            CHECK(result.As<mvvm::SharedPtr<mvvm::Model>>() == pModel);
         }
 
         SUBCASE("Collection") {
             auto pCollection = mvvm::SharedPtr<mvvm::ModelCollection<int>>::Make();
             model.SetCollection(pCollection);
 
-            mvvm::SharedPtr<mvvm::BaseModelCollection> output;
-            TestModel::COLLECTION_PROP.Get(model, static_cast<void *>(&output));
+            auto result = TestModel::COLLECTION_PROP.Get(model);
 
-            CHECK(output == pCollection);
+            REQUIRE(result.Type() == mvvm::ValueType::Collection);
+            CHECK(result.As<mvvm::SharedPtr<mvvm::BaseModelCollection>>() == pCollection);
         }
     }
 
@@ -140,27 +140,23 @@ TEST_SUITE("Property") {
         TestModel model;
 
         SUBCASE("int32_t") {
-            int32_t input = 10;
+            TestModel::INT32_PROP.Set(model, int32_t(10));
 
-            TestModel::INT32_PROP.Set(model, static_cast<void *>(&input));
-
-            CHECK(model.GetInt32() == input);
+            CHECK(model.GetInt32() == 10);
         }
 
         SUBCASE("Model") {
             auto input = mvvm::SharedPtr<TestModel>::Make();
-            auto castInput = input.StaticCast<mvvm::Model>();
 
-            TestModel::MODEL_PROP.Set(model, static_cast<const void *>(&castInput));
+            TestModel::MODEL_PROP.Set(model, input.StaticCast<mvvm::Model>());
 
             CHECK(model.GetModel() == input);
         }
 
         SUBCASE("Collection") {
             auto input = mvvm::SharedPtr<mvvm::ModelCollection<int>>::Make();
-            auto castInput = input.StaticCast<mvvm::BaseModelCollection>();
 
-            TestModel::COLLECTION_PROP.Set(model, static_cast<const void *>(&castInput));
+            TestModel::COLLECTION_PROP.Set(model, input.StaticCast<mvvm::BaseModelCollection>());
 
             CHECK(model.GetCollection() == input);
         }
