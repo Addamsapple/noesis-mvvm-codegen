@@ -99,10 +99,21 @@ public:
     Value GetValue(uint32_t index) const override {
         if constexpr(ValueTypeOfV<T> == ValueType::Model)
             return _items[index].template StaticCast<Model>();
-        else if constexpr(ValueTypeOfV<T> == ValueType::Collection)
-            return _items[index].template StaticCast<BaseModelCollection>();
+        // else if constexpr(ValueTypeOfV<T> == ValueType::Collection)
+        //     return _items[index].template StaticCast<BaseModelCollection>();
         else
             return _items[index];
+    }
+
+    void SetValue(uint32_t index, const Value & value) {
+        if constexpr(ValueTypeOfV<T> == ValueType::Model)
+            _items[index] = value.As<SharedPtr<Model>>()
+                .DynamicCast<typename T::Type>();
+        // else if constexpr(ValueTypeOfV<T> == ValueType::Collection)
+        //     _items[index] = value.As<SharedPtr<BaseModelCollection>>()
+        //         .DynamicCast<typename T::Type>();
+        else
+            _items[index] = value.As<T>();
     }
 
     const T & Get(uint32_t index) { return _items[index]; }

@@ -11,19 +11,27 @@
 
 namespace mvvm {
 
-struct DeferredValue {
-    Value Evaluate() const;
+class ResolvedValue {
+public:
+    ResolvedValue(Model * pModel, const BaseProperty * pProperty);
+    ResolvedValue(BaseModelCollection * pCollection, uint32_t index);
 
-    enum class Type {
+    Value Get() const;
+    void Set(const Value & value);
+
+    ValueType Type() const;
+
+private:
+    enum class Source {
         Property,
         Item
-    } type;
+    } _source;
 
-    Model * pModel;
-    const BaseProperty * pProperty;
+    Model * _pModel;
+    const BaseProperty * _pProperty;
 
-    BaseModelCollection * pCollection;
-    uint32_t index;
+    BaseModelCollection * _pCollection;
+    uint32_t _index;
 };
 
 struct ResolveError {
@@ -42,7 +50,7 @@ struct ResolveError {
     std::string_view path;
 };
 
-using ResolveResult = Result<DeferredValue, ResolveError>;
+using ResolveResult = Result<ResolvedValue, ResolveError>;
 
 ResolveResult Resolve(Model * pModel, std::string_view path);
 ResolveResult Resolve(BaseModelCollection * pCollection, std::string_view path);

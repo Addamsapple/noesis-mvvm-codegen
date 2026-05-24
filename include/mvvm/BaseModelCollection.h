@@ -30,8 +30,9 @@ public:
     virtual void Clear() = 0;
     virtual uint32_t Size() const = 0;
 
-    // TODO: opaque interfaces for Insert/Add/Set?
+    // TODO: opaque interfaces for Insert/Add
     virtual Value GetValue(uint32_t index) const = 0;
+    virtual void SetValue(uint32_t index, const Value & value) = 0;
 
     virtual ValueType Type() const;
 

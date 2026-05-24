@@ -101,7 +101,7 @@ TEST_SUITE("Resolve") {
         }
     }
 
-    TEST_CASE("Valid index is traversed") {
+    TEST_CASE("Valid index is resolved") {
         mvvm::ModelCollection<int> collection;
         collection.Add(10);
         collection.Add(20);
@@ -109,7 +109,16 @@ TEST_SUITE("Resolve") {
         auto result = mvvm::Resolve(&collection, ":1");
 
         REQUIRE(result.HasValue());
-        CHECK(result.Value().Evaluate().As<int>() == 20);
+        CHECK(result.Value().Get().As<int>() == 20);
+    }
+
+    TEST_CASE("Resolved index can be overwritten") {
+        mvvm::ModelCollection<int> collection;
+        collection.Add(0);
+
+        mvvm::Resolve(&collection, ":0").Value().Set(333);
+
+        CHECK(collection.Get(0) == 333);
     }
 
     TEST_CASE("Invalid property produces an error") {
@@ -134,17 +143,26 @@ TEST_SUITE("Resolve") {
         }
     }
 
-    TEST_CASE("Valid property is traversed") {
+    TEST_CASE("Valid property is resolved") {
         ParentModel parent;
         parent.SetNum(100);
 
         auto result = mvvm::Resolve(&parent, ".num");
 
         REQUIRE(result.HasValue());
-        CHECK(result.Value().Evaluate().As<int32_t>() == 100);
+        CHECK(result.Value().Get().As<int32_t>() == 100);
     }
 
-    TEST_CASE("Circular path is traversed") {
+    TEST_CASE("Resolved property can be overwritten") {
+        ParentModel parent;
+        parent.SetNum(0);
+
+        mvvm::Resolve(&parent, ".num").Value().Set(999);
+
+        CHECK(parent.GetNum() == 999);
+    }
+
+    TEST_CASE("Circular path is resolved") {
         auto pParent = mvvm::SharedPtr<ParentModel>::Make();
         auto pChild = mvvm::SharedPtr<ChildModel>::Make();
         pParent->SetNum(200);
@@ -156,6 +174,6 @@ TEST_SUITE("Resolve") {
         );
 
         REQUIRE(result.HasValue());
-        CHECK(result.Value().Evaluate().As<int32_t>() == 200);
+        CHECK(result.Value().Get().As<int32_t>() == 200);
     }
 }

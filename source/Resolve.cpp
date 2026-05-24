@@ -18,10 +18,34 @@ size_t NextDelimiter(std::string_view path) {
 
 }
 
-Value DeferredValue::Evaluate() const {
-    switch(type) {
-        case Type::Property: return pProperty->Get(*pModel);
-        case Type::Item: return pCollection->GetValue(index);
+ResolvedValue::ResolvedValue(Model * pModel, const BaseProperty * pProperty) :
+    _source(Source::Property),
+    _pModel(pModel),
+    _pProperty(pProperty) {}
+
+ResolvedValue::ResolvedValue(BaseModelCollection * pCollection, uint32_t index) :
+    _source(Source::Item),
+    _pCollection(pCollection),
+    _index(index) {}
+
+Value ResolvedValue::Get() const {
+    switch(_source) {
+        case Source::Property: return _pProperty->Get(*_pModel);
+        case Source::Item: return _pCollection->GetValue(_index);
+    }
+}
+
+void ResolvedValue::Set(const Value & value) {
+    switch(_source) {
+        case Source::Property: _pProperty->Set(*_pModel, value); break;
+        case Source::Item: _pCollection->SetValue(_index, value); break;
+    }
+}
+
+ValueType ResolvedValue::Type() const {
+    switch(_source) {
+        case Source::Property: return _pProperty->Type();
+        case Source::Item: return _pCollection->Type();
     }
 }
 
@@ -40,13 +64,7 @@ ResolveResult Resolve(Model * pModel, std::string_view path) {
         return {{ ResolveError::Type::PropertyNotFound, path }};
 
     if (splitIndex == path.size())
-        return {{
-            DeferredValue::Type::Property,
-            pModel,
-            pProperty,
-            nullptr,
-            0
-        }};
+        return {{ pModel, pProperty }};
 
     auto nextPath = path.substr(splitIndex);
 
@@ -90,13 +108,7 @@ ResolveResult Resolve(BaseModelCollection * pCollection, std::string_view path) 
         return {{ ResolveError::Type::ItemNotFound, path }};
 
     if (splitIndex == path.size())
-        return {{
-            DeferredValue::Type::Item,
-            nullptr,
-            nullptr,
-            pCollection,
-            itemIndex
-        }};
+        return {{ pCollection, itemIndex }};
 
     auto nextPath = path.substr(splitIndex);
 
