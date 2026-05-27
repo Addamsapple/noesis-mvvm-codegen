@@ -12,7 +12,10 @@ PropertyList::Iterator PropertyList::end() const {
 
 // iterator
 
-PropertyList::Iterator::Iterator(const PropertyList * pProperties) : _numLists(0), _propertyIndex(0) {
+PropertyList::Iterator::Iterator(const PropertyList * pProperties) :
+    _numLists(0),
+    _propertyIndex(0)
+{
     while (pProperties != nullptr) {
         if (pProperties->_size != 0) {
             _lists[_numLists] = pProperties;
