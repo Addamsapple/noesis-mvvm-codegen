@@ -20,12 +20,8 @@ public:
 
     class Iterator;
 
-    PropertyList() : PropertyList(nullptr, 0, nullptr) {}
-
-    PropertyList(const Entry * properties, size_t size, const PropertyList * pParent) :
-        _properties(properties),
-        _size(size),
-        _pParent(pParent) {}
+    PropertyList();
+    PropertyList(const Entry * properties, size_t size, const PropertyList * pParent);
 
     Iterator begin() const;
     Iterator end() const;

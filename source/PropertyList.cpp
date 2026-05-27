@@ -2,6 +2,13 @@
 
 namespace mvvm {
 
+PropertyList::PropertyList() : PropertyList(nullptr, 0, nullptr) {}
+
+PropertyList::PropertyList(const Entry * properties, size_t size, const PropertyList * pParent) :
+    _properties(properties),
+    _size(size),
+    _pParent(pParent) {}
+
 PropertyList::Iterator PropertyList::begin() const {
     return { this };
 }
