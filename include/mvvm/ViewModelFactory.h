@@ -1,6 +1,5 @@
 #pragma once
 
-#include <functional>
 #include <typeindex>
 #include <type_traits>
 #include <unordered_map>
@@ -14,7 +13,7 @@ namespace mvvm {
 
 class ViewModelFactory {
 public:
-    using Function = std::function<Noesis::Ptr<ViewModel> (ViewModel::Context)>;
+    using Function = Noesis::Ptr<ViewModel> (*)(ViewModel::Context);
     class Builder;
 
     Function Find(std::type_index type) const;
@@ -25,8 +24,10 @@ private:
     ViewModelFactory(Map map);
 
     template<typename T, std::enable_if_t<std::is_base_of_v<ViewModel, T>, int> = 0>
-    static Function _Function() {
-        return [](ViewModel::Context context) { return Noesis::Ptr(*new T({}, context)); };
+    static Function _MakeFunction() {
+        return [](ViewModel::Context context) -> Noesis::Ptr<ViewModel> {
+            return Noesis::Ptr(*new T({}, context));
+        };
     }
 
     const Map _map;
@@ -38,7 +39,7 @@ class ViewModelFactory::Builder {
 public:
     template<typename T, std::enable_if_t<std::is_base_of_v<ViewModel, T>, int> = 0>
     void Register() {
-        _map.emplace(typeid(typename T::ModelType_), ViewModelFactory::_Function<T>());
+        _map.emplace(typeid(typename T::ModelType_), ViewModelFactory::_MakeFunction<T>());
     }
 
     ViewModelFactory Build() &&;
