@@ -4,6 +4,7 @@ import subprocess
 import sys
 
 from caseconverter import camelcase, macrocase, pascalcase, snakecase
+from clang_format import get_executable
 from fyeah import f
 from jinja2 import select_autoescape, exceptions, Environment, FileSystemLoader
 from lxml import etree
@@ -97,8 +98,10 @@ def make_parent_dir(file_name):
     if dir_name := os.path.dirname(file_name):
         os.makedirs(dir_name, exist_ok=True)
 
+clang_format = get_executable("clang-format")
+
 def format_content(content):
-    return subprocess.run(["clang-format"], input=content, capture_output=True, text=True).stdout
+    return subprocess.run([clang_format], input=content, capture_output=True, text=True).stdout
 
 def overwrite_if_different(file_name, content):
     try:
