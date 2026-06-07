@@ -6,6 +6,10 @@ namespace mvvm {
 
 // C++20 needed for designated intializers
 
+Value::Value(bool value) : _type(ValueType::Bool) {
+    _primitive.b = value;
+}
+
 Value::Value(int8_t value) : _type(ValueType::Int8) {
     _primitive.i8 = value;
 }
@@ -75,6 +79,11 @@ Value & Value::operator=(Value && value) {
 ValueType Value::Type() const { return _type; }
 
 Value::~Value() { _Clear(); }
+
+template<> bool Value::As<bool>() const {
+    assert(Type() == ValueType::Bool);
+    return _primitive.b;
+}
 
 template<> int8_t Value::As<int8_t>() const {
     assert(Type() == ValueType::Int8);

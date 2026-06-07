@@ -14,6 +14,8 @@ class Model;
 
 class Value {
 public:
+    Value(bool value);
+
     Value(int8_t value);
     Value(int16_t value);
     Value(int32_t value);
@@ -53,6 +55,8 @@ private:
 
     union {
         union {
+            bool b;
+
             int8_t i8;
             int16_t i16;
             int32_t i32;

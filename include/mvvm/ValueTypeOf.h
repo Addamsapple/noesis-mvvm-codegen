@@ -21,6 +21,12 @@ template<typename T, typename = void> struct ValueTypeOf {
     static constexpr auto Value = ValueType::Unknown;
 };
 
+// bool
+
+template<> struct ValueTypeOf<bool> {
+    static constexpr auto Value = ValueType::Bool;
+};
+
 // signed
 
 template<> struct ValueTypeOf<int8_t> {
