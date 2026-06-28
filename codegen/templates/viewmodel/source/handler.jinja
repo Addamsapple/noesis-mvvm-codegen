@@ -1,10 +1,21 @@
-mvvm::ViewModel::HandlerResult {{props.name}}::_HandleModelChanged(const mvvm::BaseProperty & property, const void * pOldValue, const void * pNewValue) {
-    if (ParentType_::_HandleModelChanged(property, pOldValue, pNewValue) == HandlerResult::Handled) return HandlerResult::Handled;
+mvvm::ViewModel::HandlerResult {{props.name}}::_HandleModelChanged(
+    const mvvm::BaseProperty & property,
+    const void * pOldValue,
+    const void * pNewValue
+) {
+    if (ParentType_::_HandleModelChanged(property, pOldValue, pNewValue) == HandlerResult::Handled)
+        return HandlerResult::Handled;
 
     {% for prop in children %}
-        {% if not loop.first %} else {% endif %}
+        {% filter indent_all(4) %}
+            {{-"if " if loop.first else "else if "-}}
+        {% endfilter %}
 
-        if (property == ModelType_::{{prop.props.name | CONST_CASE}}_PROP)
+        {%- filter dedent -%}
+            (property == ModelType_::{{prop.props.name | CONST_CASE}}_PROP)
+        {% endfilter %}
+
+        {%- filter dedent_indent(8) %}
             {% if prop.props.type not in ["class", "collection", "string"] %}
                 Set{{prop.props.name | PascalCase}}(ModelType_::{{prop.props.name | CONST_CASE}}_PROP.Cast(pNewValue));
             {% elif prop.props.type == "string" %}
@@ -14,13 +25,18 @@ mvvm::ViewModel::HandlerResult {{props.name}}::_HandleModelChanged(const mvvm::B
             {% else %}
                 _ObserveCollection<{{prop.props.name | PascalCase}}Type::Type>({{prop.props.name | CONST_CASE}}_PROP, ModelType_::{{prop.props.name | CONST_CASE}}_PROP.Cast(pNewValue));
             {% endif %}
+        {% endfilter %}
     {% endfor %}
 
-    {%- if children | length != 0 %}
-            else return HandlerResult::NotHandled;
+    {%- filter dedent_indent(4) %}
+        {% if children | length != 0 %}
+            else
+                return HandlerResult::NotHandled;
 
-        return HandlerResult::Handled;
-    {% else %}
-        return HandlerResult::NotHandled;
-    {% endif %}
+            return HandlerResult::Handled;
+        {% else %}
+
+            return HandlerResult::NotHandled;
+        {% endif %}
+    {% endfilter %}
 }

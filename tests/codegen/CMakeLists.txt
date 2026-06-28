@@ -32,7 +32,6 @@ set(MODEL_CODEGEN_DEPENDENCIES
     codegen_venv
 
     ${CMAKE_CURRENT_SOURCE_DIR}/models.xml
-    ${CMAKE_CURRENT_SOURCE_DIR}/.clang-format
 
     ${CODEGEN_DIR}/templates/utils.jinja
     ${CODEGEN_DIR}/templates/model/utils.jinja
@@ -58,7 +57,6 @@ set(VIEWMODEL_CODEGEN_DEPENDENCIES
     codegen_venv
 
     ${CMAKE_CURRENT_SOURCE_DIR}/viewmodels.xml
-    ${CMAKE_CURRENT_SOURCE_DIR}/.clang-format
 
     ${CODEGEN_DIR}/templates/utils.jinja
     ${CODEGEN_DIR}/templates/viewmodel/utils.jinja

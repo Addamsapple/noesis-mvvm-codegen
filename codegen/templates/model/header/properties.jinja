@@ -1,4 +1,3 @@
-{% for prop in children %}
-    static const mvvm::Property<{{prop.props.name | PascalCase}}Type>
-        {{prop.props.name | CONST_CASE}}_PROP;
+{% for prop in children -%}
+    static const mvvm::Property<{{prop.props.name | PascalCase}}Type> {{prop.props.name | CONST_CASE}}_PROP;
 {% endfor %}

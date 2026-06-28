@@ -13,7 +13,6 @@
 - Views
 ## Script
 - Multi-threading
-- Post-processing
 ## CMake
 - Helpers
 # Testing

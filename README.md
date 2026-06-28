@@ -20,7 +20,6 @@ Code generation tools for [NoesisGUI](https://www.noesisengine.com/).
 - lxml
 - case-converter
 - f-yeah
-- clang-format
 
 ## Architecture
 
@@ -34,7 +33,7 @@ Basic functionality is provided by a few core classes.
 These are implemented in terms of a few helper classes, including a custom single-threaded `SharedPtr`.
 
 ### Codegen
-Models and view models are described in **XML**, and converted to source files by a **Python** script that renders **Jinja** templates. These outputs are processed by **ClangFormat**, to ensure consistent formatting.
+Models and view models are described in **XML**, and converted to source files by a **Python** script that renders **Jinja** templates.
 
 Templates have full access to the XML structure after it is converted to a Python `dict`, e.g.
 ```xml

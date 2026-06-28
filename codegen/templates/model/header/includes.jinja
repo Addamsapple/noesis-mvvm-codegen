@@ -1,10 +1,11 @@
 #include <memory>
 #include <string>
 
-{% if props.parent is defined %}
+{% if props.parent is defined -%}
     #include <{{props.parent_namespace | default(props.namespace) | ns_to_path}}{{props.parent}}.h>
-{% else %}
+{% else -%}
     #include <mvvm/Model.h>
-{% endif %}
+{% endif -%}
 
 #include <mvvm/SharedPtr.h>
+

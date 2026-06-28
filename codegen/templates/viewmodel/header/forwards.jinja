@@ -1,23 +1,27 @@
 {% import "utils.jinja" as utils %}
 
-{% set ns = children | map(attribute="props.namespace") | list %}
+{%- set ns = children | map(attribute="props.namespace") | list %}
 {% set item_ns = children | map(attribute="props.item_namespace") | list %}
 {% set unique_ns = (ns + item_ns) | unique %}
 
-{% for ns in unique_ns %}
+{%- for ns in unique_ns %}
     {% set classes = children | selectattr("props.namespace", "eq", ns) | map(attribute="props.class") | list %}
     {% set item_classes = children | selectattr("props.item_namespace", "eq", ns) | map(attribute="props.item_class") | list %}
     {% set unique_classes = (classes + item_classes) | unique | select | list %}
 
-    {% if unique_classes | length != 0 %} ## if sole property is primitive, nothing to declare
-        {% call utils.namespace(ns | default(props.namespace)) %}
-            {% for class in unique_classes %}
+    {%- if unique_classes | length != 0 %}
+        {{-utils.open_namespace(ns | default(props.namespace))}}
+            {% for class in unique_classes -%}
                 class {{class}};
             {% endfor %}
-        {% endcall %}
+        {{-utils.close_namespace(ns | default(props.namespace))}}
+
     {% endif %}
 {% endfor %}
 
-{% call utils.namespace(props.model_namespace | default(props.namespace)) %}
-    class {{props.model | default(props.name)}};
-{% endcall %}
+{{-utils.open_namespace(props.model_namespace | default(props.namespace))}}
+    {% filter dedent %}
+        class {{props.model | default(props.name)}};
+    {% endfilter %}
+{{utils.close_namespace(props.model_namespace | default(props.namespace))}}
+

@@ -4,26 +4,38 @@
 #pragma once
 
 {% include "model/header/includes.jinja" %}
+
 {% include "model/header/forwards.jinja" %}
 
-{% call utils.namespace(props.namespace) %}
+{{utils.open_namespace(props.namespace)}}
 
-    class {{props.name}} : public {{m_utils.parent(props)}} {
-    public:
+class {{props.name}} : public {{m_utils.parent(props)}} {
+public:
+    {% filter indent_all(4) %}
         {% include "model/header/aliases.jinja" %}
+    {% endfilter %}
 
-        const mvvm::PropertyList & Properties() const override;
+    const mvvm::PropertyList & Properties() const override;
 
-        {% for prop in children %}
+    {% for prop in children %}
+        {% filter indent_all(4) -%}
             // ------ {{prop.props.name}} ------
+        {% endfilter %}
+
+        {%- filter indent_all(4) %}
             {% include "model/header/getter.jinja" %}
             {% include "model/header/setter.jinja" %}
-        {% endfor %}
+        {% endfilter %}
 
+    {% endfor %}
+
+    {%- filter indent_all(4) %}
         {% include "model/header/properties.jinja" %}
-    private:
-        {% include "model/header/members.jinja" %}
-    };
+    {% endfilter %}
 
-{% endcall %}
+private:
+    {% include "model/header/members.jinja" %}
+};
+
+{{utils.close_namespace(props.namespace)}}
 

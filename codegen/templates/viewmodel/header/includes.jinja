@@ -1,11 +1,14 @@
 #include <NsGui/DependencyObject.h>
 
-{% if props.parent is not defined %}
+{% if props.parent is not defined -%}
     #include <mvvm/ViewModel.h>
 {% endif -%}
 
 #include <mvvm/ViewModelCollection.h>
 
-{% if props.parent is defined %}
+{{-newline()}}
+
+{%- if props.parent is defined %}
+    {{-newline()-}}
     #include <{{props.parent_namespace | default(props.namespace) | ns_to_path}}{{props.parent}}.h>
 {% endif %}

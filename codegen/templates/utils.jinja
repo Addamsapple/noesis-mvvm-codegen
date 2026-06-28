@@ -1,11 +1,11 @@
-{% macro namespace(ns) %}
-    {% if ns %}
+{% macro open_namespace(ns) %}
+    {% if ns -%}
         namespace {{ns}} {
-    {% endif %}
+    {%- endif %}
+{% endmacro %}
 
-    {{- caller() -}}
-
-    {% if ns %}
+{% macro close_namespace(ns) %}
+    {% if ns -%}
         }
-    {% endif %}
+    {%- endif %}
 {% endmacro %}

@@ -2,9 +2,9 @@ import argparse
 import os
 import subprocess
 import sys
+import textwrap
 
 from caseconverter import camelcase, macrocase, pascalcase, snakecase
-from clang_format import get_executable
 from fyeah import f
 from jinja2 import select_autoescape, exceptions, Environment, FileSystemLoader
 from lxml import etree
@@ -77,6 +77,18 @@ env.filters["PascalCase"] = pascalcase
 env.filters["snake_case"] = snakecase
 env.filters["CONST_CASE"] = macrocase
 
+def dedent(text):
+    return textwrap.dedent(text)
+def indent(text, num_spaces):
+    return textwrap.indent(text, " " * num_spaces)
+def dedent_indent(text, num_spaces):
+    return indent(dedent(text), num_spaces)
+
+env.filters["dedent"] = dedent
+# built-in indent filter ignores first line by default
+env.filters["indent_all"] = indent
+env.filters["dedent_indent"] = dedent_indent
+
 def namespace_to_path(namespace):
     if not namespace:
         return ""
@@ -84,12 +96,16 @@ def namespace_to_path(namespace):
 
 env.filters["ns_to_path"] = namespace_to_path
 
+def newline():
+    return env.newline_sequence
+
 class CodegenError(exceptions.TemplateRuntimeError):
     pass
 
 def raise_codegen_error(message):
     raise CodegenError(message)
 
+env.globals["newline"] = newline
 env.globals["error"] = raise_codegen_error
 
 # helpers
@@ -97,11 +113,6 @@ env.globals["error"] = raise_codegen_error
 def make_parent_dir(file_name):
     if dir_name := os.path.dirname(file_name):
         os.makedirs(dir_name, exist_ok=True)
-
-clang_format = get_executable("clang-format")
-
-def format_content(content):
-    return subprocess.run([clang_format], input=content, capture_output=True, text=True).stdout
 
 def overwrite_if_different(file_name, content):
     try:
@@ -132,7 +143,7 @@ try:
 
         overwrite_if_different(
             file,
-            format_content(template.render(input_as_dict))
+            template.render(input_as_dict)
         )
 
     # many
@@ -145,7 +156,7 @@ try:
 
             overwrite_if_different(
                 file,
-                format_content(template.render(element))
+                template.render(element)
             )
 
     sys.exit(0)

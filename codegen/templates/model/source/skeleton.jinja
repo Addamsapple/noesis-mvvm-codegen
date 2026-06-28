@@ -1,36 +1,38 @@
 {% import "utils.jinja" as utils %}
-{% import "model/utils.jinja" as m_utils -%}
+{% import "model/utils.jinja" as m_utils %}
 
-{% include "model/source/includes.jinja" %}
+{%- include "model/source/includes.jinja" %}
 
-{% call utils.namespace(props.namespace) %}
+{{utils.open_namespace(props.namespace)}}
 
-    namespace {
+namespace {
 
-    const mvvm::PropertyList::Entry PROPERTIES[] = {
-        {% for prop in children %}
+const mvvm::PropertyList::Entry PROPERTIES[] = {
+    {% filter indent_all(4) %}
+        {% for prop in children -%}
             {"{{prop.props.name}}", &{{props.name}}::{{prop.props.name | CONST_CASE}}_PROP},
         {% endfor %}
-    };
+    {% endfilter %}
+};
 
-    }
+}
 
-    const mvvm::PropertyList & {{props.name}}::Properties() const {
-        static const mvvm::PropertyList result(
-            PROPERTIES,
-            std::size(PROPERTIES),
-            &{{m_utils.parent(props)}}::Properties()
-        );
-        return result;
-    }
+const mvvm::PropertyList & {{props.name}}::Properties() const {
+    static const mvvm::PropertyList result(
+        PROPERTIES,
+        std::size(PROPERTIES),
+        &{{m_utils.parent(props)}}::Properties()
+    );
+    return result;
+}
 
-    {% for prop in children %}
-        // ------ {{prop.props.name}} ------
-        {% include "model/source/getter.jinja" %}
+{% for prop in children -%}
+    // ------ {{prop.props.name}} ------
+    {% include "model/source/getter.jinja" %}
+    {% include "model/source/setter.jinja" %}
 
-        {% include "model/source/setter.jinja" %}
+{% endfor %}
 
-    {% endfor %}
+{%- include "model/source/properties.jinja" %}
 
-    {% include "model/source/properties.jinja" %}
-{% endcall %}
+{{utils.close_namespace(props.namespace)}}
