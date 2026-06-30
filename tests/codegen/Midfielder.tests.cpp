@@ -6,8 +6,8 @@
 #include "Compare.h"
 #include "Factory.h"
 
-#include "generated/model/Midfielder.h"
-#include "generated/viewmodel/Midfielder.h"
+#include "model/Midfielder.h"
+#include "viewmodel/Midfielder.h"
 
 TEST_SUITE("Midfielder codegen") {
     TEST_CASE("Passes is synced") {

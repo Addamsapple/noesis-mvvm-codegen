@@ -6,8 +6,8 @@
 #include "Compare.h"
 #include "Factory.h"
 
-#include "generated/model/Goalkeeper.h"
-#include "generated/viewmodel/Goalkeeper.h"
+#include "model/Goalkeeper.h"
+#include "viewmodel/Goalkeeper.h"
 
 TEST_SUITE("Goalkeeper codegen") {
     TEST_CASE("Save percentage is synced") {

@@ -6,11 +6,11 @@
 #include "Compare.h"
 #include "Factory.h"
 
-#include "generated/model/Player.h"
-#include "generated/model/Team.h"
+#include "model/Player.h"
+#include "model/Team.h"
 
-#include "generated/viewmodel/Player.h"
-#include "generated/viewmodel/Team.h"
+#include "viewmodel/Player.h"
+#include "viewmodel/Team.h"
 
 TEST_SUITE("Player codegen") {
     TEST_CASE("Name is synced") {

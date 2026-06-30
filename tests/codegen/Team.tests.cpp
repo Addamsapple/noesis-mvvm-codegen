@@ -6,13 +6,13 @@
 #include "Compare.h"
 #include "Factory.h"
 
-#include "generated/model/League.h"
-#include "generated/model/Player.h"
-#include "generated/model/Team.h"
+#include "model/League.h"
+#include "model/Player.h"
+#include "model/Team.h"
 
-#include "generated/viewmodel/League.h"
-#include "generated/viewmodel/Player.h"
-#include "generated/viewmodel/Team.h"
+#include "viewmodel/League.h"
+#include "viewmodel/Player.h"
+#include "viewmodel/Team.h"
 
 TEST_SUITE("Team codegen") {
     TEST_CASE("Players are synced") {

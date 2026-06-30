@@ -1,18 +1,18 @@
 #include "Compare.h"
 
-#include "generated/model/League.h"
-#include "generated/model/Team.h"
-#include "generated/model/Player.h"
-#include "generated/model/Goalkeeper.h"
-#include "generated/model/Outfielder.h"
-#include "generated/model/Midfielder.h"
+#include "model/League.h"
+#include "model/Team.h"
+#include "model/Player.h"
+#include "model/Goalkeeper.h"
+#include "model/Outfielder.h"
+#include "model/Midfielder.h"
 
-#include "generated/viewmodel/League.h"
-#include "generated/viewmodel/Team.h"
-#include "generated/viewmodel/Player.h"
-#include "generated/viewmodel/Goalkeeper.h"
-#include "generated/viewmodel/Outfielder.h"
-#include "generated/viewmodel/Midfielder.h"
+#include "viewmodel/League.h"
+#include "viewmodel/Team.h"
+#include "viewmodel/Player.h"
+#include "viewmodel/Goalkeeper.h"
+#include "viewmodel/Outfielder.h"
+#include "viewmodel/Midfielder.h"
 
 bool VmEqualsM(Noesis::Ptr<viewmodel::Midfielder> pViewModel, mvvm::SharedPtr<model::Midfielder> pModel) {
     if (!pModel || !pViewModel)

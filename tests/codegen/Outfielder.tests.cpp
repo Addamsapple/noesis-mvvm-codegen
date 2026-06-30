@@ -6,8 +6,8 @@
 #include "Compare.h"
 #include "Factory.h"
 
-#include "generated/model/Outfielder.h"
-#include "generated/viewmodel/Outfielder.h"
+#include "model/Outfielder.h"
+#include "viewmodel/Outfielder.h"
 
 TEST_SUITE("Outfielder codegen") {
     TEST_CASE("Goals is synced") {

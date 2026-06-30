@@ -85,8 +85,8 @@ add_custom_command(
     COMMAND ${VENV_PYTHON} ${CODEGEN_DIR}/codegen.py
         --input ${CMAKE_CURRENT_SOURCE_DIR}/models.xml
         --template_dir ${CODEGEN_DIR}/templates
-        --many model/header/skeleton.jinja generated/model/{props['name']}.h
-        --many model/source/skeleton.jinja generated/model/{props['name']}.cpp
+        --many model/header/skeleton.jinja ${CMAKE_CURRENT_BINARY_DIR}/model/{props['name']}.h
+        --many model/source/skeleton.jinja ${CMAKE_CURRENT_BINARY_DIR}/model/{props['name']}.cpp
     COMMAND ${CMAKE_COMMAND} -E touch ${CMAKE_CURRENT_BINARY_DIR}/model_codegen.stamp
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     COMMENT "Generating models..."
@@ -100,9 +100,9 @@ add_custom_command(
     COMMAND ${VENV_PYTHON} ${CODEGEN_DIR}/codegen.py
         --input ${CMAKE_CURRENT_SOURCE_DIR}/viewmodels.xml
         --template_dir ${CODEGEN_DIR}/templates
-        --many viewmodel/header/skeleton.jinja generated/viewmodel/{props['name']}.h
-        --many viewmodel/source/skeleton.jinja generated/viewmodel/{props['name']}.cpp
-        --many viewmodel/inc.jinja generated/viewmodel/{props['name']}.inc
+        --many viewmodel/header/skeleton.jinja ${CMAKE_CURRENT_BINARY_DIR}/viewmodel/{props['name']}.h
+        --many viewmodel/source/skeleton.jinja ${CMAKE_CURRENT_BINARY_DIR}/viewmodel/{props['name']}.cpp
+        --many viewmodel/inc.jinja ${CMAKE_CURRENT_BINARY_DIR}/viewmodel/{props['name']}.inc
     COMMAND ${CMAKE_COMMAND} -E touch ${CMAKE_CURRENT_BINARY_DIR}/viewmodel_codegen.stamp
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     COMMENT "Generating viewmodels..."
@@ -114,40 +114,40 @@ add_custom_target(model_codegen DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/model_codege
 add_custom_target(viewmodel_codegen DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/viewmodel_codegen.stamp)
 
 set(GENERATED_SOURCES
-    ${CMAKE_CURRENT_SOURCE_DIR}/generated/model/League.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/generated/model/Team.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/generated/model/Player.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/generated/model/Goalkeeper.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/generated/model/Outfielder.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/generated/model/Midfielder.h
+    ${CMAKE_CURRENT_BINARY_DIR}/model/League.h
+    ${CMAKE_CURRENT_BINARY_DIR}/model/Team.h
+    ${CMAKE_CURRENT_BINARY_DIR}/model/Player.h
+    ${CMAKE_CURRENT_BINARY_DIR}/model/Goalkeeper.h
+    ${CMAKE_CURRENT_BINARY_DIR}/model/Outfielder.h
+    ${CMAKE_CURRENT_BINARY_DIR}/model/Midfielder.h
 
-    ${CMAKE_CURRENT_SOURCE_DIR}/generated/model/League.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/generated/model/Team.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/generated/model/Player.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/generated/model/Goalkeeper.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/generated/model/Outfielder.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/generated/model/Midfielder.cpp
+    ${CMAKE_CURRENT_BINARY_DIR}/model/League.cpp
+    ${CMAKE_CURRENT_BINARY_DIR}/model/Team.cpp
+    ${CMAKE_CURRENT_BINARY_DIR}/model/Player.cpp
+    ${CMAKE_CURRENT_BINARY_DIR}/model/Goalkeeper.cpp
+    ${CMAKE_CURRENT_BINARY_DIR}/model/Outfielder.cpp
+    ${CMAKE_CURRENT_BINARY_DIR}/model/Midfielder.cpp
 
-    ${CMAKE_CURRENT_SOURCE_DIR}/generated/viewmodel/League.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/generated/viewmodel/Team.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/generated/viewmodel/Player.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/generated/viewmodel/Goalkeeper.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/generated/viewmodel/Outfielder.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/generated/viewmodel/Midfielder.h
+    ${CMAKE_CURRENT_BINARY_DIR}/viewmodel/League.h
+    ${CMAKE_CURRENT_BINARY_DIR}/viewmodel/Team.h
+    ${CMAKE_CURRENT_BINARY_DIR}/viewmodel/Player.h
+    ${CMAKE_CURRENT_BINARY_DIR}/viewmodel/Goalkeeper.h
+    ${CMAKE_CURRENT_BINARY_DIR}/viewmodel/Outfielder.h
+    ${CMAKE_CURRENT_BINARY_DIR}/viewmodel/Midfielder.h
 
-    ${CMAKE_CURRENT_SOURCE_DIR}/generated/viewmodel/League.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/generated/viewmodel/Team.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/generated/viewmodel/Player.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/generated/viewmodel/Goalkeeper.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/generated/viewmodel/Outfielder.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/generated/viewmodel/Midfielder.cpp
+    ${CMAKE_CURRENT_BINARY_DIR}/viewmodel/League.cpp
+    ${CMAKE_CURRENT_BINARY_DIR}/viewmodel/Team.cpp
+    ${CMAKE_CURRENT_BINARY_DIR}/viewmodel/Player.cpp
+    ${CMAKE_CURRENT_BINARY_DIR}/viewmodel/Goalkeeper.cpp
+    ${CMAKE_CURRENT_BINARY_DIR}/viewmodel/Outfielder.cpp
+    ${CMAKE_CURRENT_BINARY_DIR}/viewmodel/Midfielder.cpp
 
-    ${CMAKE_CURRENT_SOURCE_DIR}/generated/viewmodel/League.inc
-    ${CMAKE_CURRENT_SOURCE_DIR}/generated/viewmodel/Team.inc
-    ${CMAKE_CURRENT_SOURCE_DIR}/generated/viewmodel/Player.inc
-    ${CMAKE_CURRENT_SOURCE_DIR}/generated/viewmodel/Goalkeeper.inc
-    ${CMAKE_CURRENT_SOURCE_DIR}/generated/viewmodel/Outfielder.inc
-    ${CMAKE_CURRENT_SOURCE_DIR}/generated/viewmodel/Midfielder.inc
+    ${CMAKE_CURRENT_BINARY_DIR}/viewmodel/League.inc
+    ${CMAKE_CURRENT_BINARY_DIR}/viewmodel/Team.inc
+    ${CMAKE_CURRENT_BINARY_DIR}/viewmodel/Player.inc
+    ${CMAKE_CURRENT_BINARY_DIR}/viewmodel/Goalkeeper.inc
+    ${CMAKE_CURRENT_BINARY_DIR}/viewmodel/Outfielder.inc
+    ${CMAKE_CURRENT_BINARY_DIR}/viewmodel/Midfielder.inc
 )
 
 set_source_files_properties(${GENERATED_SOURCES} PROPERTIES GENERATED TRUE)
@@ -175,7 +175,7 @@ target_precompile_headers(codegen_tests REUSE_FROM core)
 
 target_include_directories(codegen_tests
     PRIVATE
-        generated
+        ${CMAKE_CURRENT_BINARY_DIR}
 )
 
 target_link_libraries(codegen_tests

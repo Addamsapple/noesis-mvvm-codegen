@@ -4,12 +4,12 @@
 #include <NsCore/Init.h>
 #include <NsCore/TypeOf.h>
 
-#include "generated/viewmodel/League.h"
-#include "generated/viewmodel/Team.h"
-#include "generated/viewmodel/Player.h"
-#include "generated/viewmodel/Goalkeeper.h"
-#include "generated/viewmodel/Outfielder.h"
-#include "generated/viewmodel/Midfielder.h"
+#include "viewmodel/League.h"
+#include "viewmodel/Team.h"
+#include "viewmodel/Player.h"
+#include "viewmodel/Goalkeeper.h"
+#include "viewmodel/Outfielder.h"
+#include "viewmodel/Midfielder.h"
 
 int main(int argc, char ** argv) {
     Noesis::Init();
