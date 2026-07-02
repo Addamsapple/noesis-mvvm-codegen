@@ -6,6 +6,8 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+cmake_policy(SET CMP0110 NEW) # not necessary for versions >= 3.19
+
 set(MVVM_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/source/BaseModelCollection.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/source/BaseProperty.cpp

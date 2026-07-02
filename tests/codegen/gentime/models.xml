@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+    <class test="NoProps" name="NoPropModel" namespace="model"/>
+
+    <class test="ManyProps" name="ManyPropModel" namespace="model">
+        <prop name="Integer" type="int"/>
+        <prop name="String" type="string"/>
+        <prop name="Float" type="float"/>
+        <prop name="Boolean" type="bool"/>
+    </class>
+</definitions>
