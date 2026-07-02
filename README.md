@@ -3,9 +3,9 @@
 Code generation tools for [NoesisGUI](https://www.noesisengine.com/).
 
 ## Features
-- **XML class definitions** - models and view models are declared as simple XML elements.
+- **XML class definitions** - classes are declared as simple XML elements.
 - **Jinja source templates** - code is generated from customizable Jinja templates.
-- **MVVM synchronization** - model state is always reflected by view models.
+- **MVVM synchronization** - model state is reflected in view models.
 
 ## Requirements
 
@@ -66,15 +66,17 @@ is supplied to Jinja as
 }
 ```
 
+## Samples
+Examples of generated models and view models can be found in `tests/codegen/gentime`.
+
 ## Testing
-Test suites `core`, `reflection` and `codegen` can be built and run via
+Test suites can be built and run via
 ```bash
 cmake -B build && cd build && cmake --build . && ctest
 ```
-after which some example models and view models can be found in `tests/codegen/generated`.
 
 > [!NOTE]
-> A (Linux) version of the NoesisGUI Native SDK is already packaged for internal use.
+> A version of the NoesisGUI Native SDK is included for internal use.
 
 ## Usage
 
