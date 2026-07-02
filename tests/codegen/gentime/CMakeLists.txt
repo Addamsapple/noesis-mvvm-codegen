@@ -46,7 +46,7 @@ set(GIT_DIFF_COMMAND git diff --no-index --no-renames --diff-filter=DM --ignore-
 
 add_test(
     NAME "[CODEGEN][GENTIME]Class without properties matches snapshot"
-    COMMAND git diff --no-index --no-renames --diff-filter=DM --ignore-cr-at-eol
+    COMMAND ${GIT_DIFF_COMMAND}
         ${CMAKE_CURRENT_SOURCE_DIR}/NoProps
         ${CMAKE_CURRENT_BINARY_DIR}/NoProps
 )
