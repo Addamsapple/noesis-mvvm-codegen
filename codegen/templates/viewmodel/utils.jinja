@@ -1,4 +1,4 @@
-{% macro parent(vm_props)%}
+{% macro parent(vm_props) %}
     {% if vm_props.parent is not defined -%}
         mvvm::ViewModel
     {%- else -%}
